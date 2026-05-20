@@ -1,0 +1,8 @@
+# Ignore local project files that are not part of the portfolio
+Vannsh shah CV.pdf
+desktop.ini
+Thumbs.db
+.DS_Store
+__pycache__/
+*.pyc
+*.log
