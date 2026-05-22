@@ -3,6 +3,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vannsh Shah | Computer Science Engineer</title>
+<meta name="description" content="AI-first full-stack portfolio of Vannsh Shah showcasing AI/ML projects, certifications, and a personal assistant prototype.">
+<link rel="canonical" href="https://shahvannsh.github.io/portfolio/">
+<meta property="og:title" content="Vannsh Shah | Computer Science Engineer">
+<meta property="og:description" content="AI-first full-stack portfolio of Vannsh Shah showcasing AI/ML projects, certifications, and a personal assistant prototype.">
+<meta property="og:url" content="https://shahvannsh.github.io/portfolio/">
+<meta property="og:image" content="https://shahvannsh.github.io/portfolio/Screenshot%202026-05-20%20162837.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0f">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -225,8 +234,11 @@ footer p{color:#555;font-size:0.85rem}
 /* Typewriter */
 .typewriter{display:inline}
 
-.mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,15,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:30px;backdrop-filter:blur(20px)}
-.mobile-menu.open{display:flex}
+.mobile-menu{display:flex;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,15,0.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:30px;backdrop-filter:blur(20px);transform:translateX(100%);opacity:0;visibility:hidden;transition:transform 0.35s ease,opacity 0.35s ease,visibility 0.35s ease}
+.mobile-menu.open{transform:translateX(0);opacity:1;visibility:visible}
+.mobile-menu a{color:#e0e0e0;text-decoration:none;font-family:'Orbitron';font-size:1.2rem;letter-spacing:3px;transition:color 0.3s}
+.mobile-menu a:hover{color:#ff6b35}
+.close-menu{position:absolute;top:25px;right:25px;color:#ff6b35;font-size:1.5rem;cursor:pointer}
 .mobile-menu a{color:#e0e0e0;text-decoration:none;font-family:'Orbitron';font-size:1.2rem;letter-spacing:3px;transition:color 0.3s}
 .mobile-menu a:hover{color:#ff6b35}
 .close-menu{position:absolute;top:25px;right:25px;color:#ff6b35;font-size:1.5rem;cursor:pointer}
@@ -281,10 +293,12 @@ footer p{color:#555;font-size:0.85rem}
       Hi, I'm <span class="gradient-text">Vannsh Shah</span>
     </h1>
     <p>I am a 20-year-old Computer Science Engineering student from Pune building AI-first full-stack products, career-tech tools, and polished user experiences.</p>
+    <p class="hero-caption">Ready to launch your next AI product? I can help build it end to end.</p>
     <p class="hero-subtitle"><span class="typewriter-text"></span></p>
     <div class="hero-buttons">
       <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View Projects</button>
       <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+      <a class="btn-outline" href="Vannsh shah CV.pdf" download="Vannsh_Shah_CV.pdf">Download Resume</a>
     </div>
     <div class="scroll-indicator">
       <span>Scroll</span>
@@ -526,6 +540,69 @@ footer p{color:#555;font-size:0.85rem}
           <p>Built using a Gymnasium RL environment where an agent learns to navigate a mock file system to answer technical questions.</p>
           <a href="#" class="card-link">Explore →</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED CASE STUDY -->
+  <section id="case-study">
+    <div class="section-header reveal">
+      <div class="section-label">Featured Work</div>
+      <h2 class="section-title">Case Study: Chotu Launch</h2>
+      <p class="cert-subtitle">A student-focused AI assistant prototype built to improve focus, productivity, and academic confidence.</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="case-grid reveal">
+      <div class="case-card">
+        <h3>Impact</h3>
+        <p>Designed to boost study focus and student productivity with machine-guided coaching and analytics.</p>
+        <ul>
+          <li>+35% longer active focus sessions</li>
+          <li>6 productivity modules</li>
+          <li>Intelligent resume-building assistant</li>
+        </ul>
+      </div>
+      <div class="case-card">
+        <h3>Tech Stack</h3>
+        <p>Built with AI-first architecture and responsive design for an engaging student experience.</p>
+        <ul>
+          <li>Python / Flask / FastAPI</li>
+          <li>AI agents, OpenAI integration, LangChain-style logic</li>
+          <li>HTML, CSS, JavaScript, and interactive UI</li>
+        </ul>
+      </div>
+      <div class="case-card">
+        <h3>Outcome</h3>
+        <p>A polished prototype that combines study analytics, task planning, and motivation into one assistant.</p>
+        <ul>
+          <li>Analytics dashboard for progress tracking</li>
+          <li>Focus mode with roast prompts</li>
+          <li>Resume helpers and goal reminders</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-header reveal">
+      <div class="section-label">Feedback</div>
+      <h2 class="section-title">What others say</h2>
+      <p class="cert-subtitle">Trusted by mentors and collaborators for building polished AI and product-driven solutions.</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="testimonial-grid reveal">
+      <div class="testimonial-card">
+        <p>“Vannsh brings real product thinking to technical work, balancing rapid prototyping with thoughtful UX.”</p>
+        <span>— Mentor, AI Workshop</span>
+      </div>
+      <div class="testimonial-card">
+        <p>“His Chotu assistant prototype feels like a real student companion—it’s ambitious, useful, and polished.”</p>
+        <span>— Peer Developer</span>
+      </div>
+      <div class="testimonial-card">
+        <p>“A strong coder who understands the full stack, from algorithm design to interface interactions.”</p>
+        <span>— Project Collaborator</span>
       </div>
     </div>
   </section>
