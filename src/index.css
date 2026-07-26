@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  background: #0a0b0d;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+}
+
+body {
+  font-family: "Space Grotesk", sans-serif;
+  color: #e7e9ec;
+}
+
+::selection {
+  background: #ff7a33;
+  color: #0a0b0d;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0b0d;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff7a33, #4fd1c5);
+  border-radius: 4px;
+}
+
+.grad-text {
+  background: linear-gradient(120deg, #ffb073 0%, #ff7a33 45%, #4fd1c5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hud-grid {
+  background-image:
+    linear-gradient(rgba(255, 122, 51, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 122, 51, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
