@@ -83,6 +83,7 @@ export const projects = [
     description:
       "A swipe-based job-matching platform for students and jobseekers \u2014 smart job suggestions, resume upload, XP tracking, and AI-guided career paths, with an off-white and gold interface.",
     stack: ["C++", "QML", "UI/UX"],
+    visual: "swipe" as const,
   },
   {
     id: "02",
@@ -93,6 +94,7 @@ export const projects = [
     description:
       "An Iron-Man-inspired personal AI assistant with focus sessions, distraction tracking, an analytics dashboard, roast-mode accountability, and a resume-building tool.",
     stack: ["Python", "Flask/FastAPI", "AI Agents"],
+    visual: "screenshot" as const,
   },
   {
     id: "03",
@@ -103,6 +105,7 @@ export const projects = [
     description:
       "A Gymnasium RL environment where an agent learns to navigate a mock file system to answer technical documentation queries \u2014 simulating a developer's search workflow.",
     stack: ["Python", "Gymnasium", "RL"],
+    visual: "grid" as const,
   },
 ];
 
@@ -170,6 +173,39 @@ export const certifications = [
       "Accelerate Your Learning with ChatGPT (OpenAI)",
       "Introduction to C (SoloLearn)",
     ],
+  },
+];
+
+export const achievements = [
+  {
+    title: "Solar Ambassador Workshop",
+    org: "Energy Swaraj Foundation",
+    date: "Oct 2024",
+    note: "Built a dual-mode solar lamp; session led by Prof. Chetan Singh Solanki.",
+  },
+  {
+    title: "Industry 4.0 Visit",
+    org: "SSPU College",
+    date: "2025",
+    note: "Explored AI, IoT, and automation in smart-factory environments.",
+  },
+  {
+    title: "DIPEX 2025",
+    org: "Robotics & Innovation Expo",
+    date: "2025",
+    note: "Fine-tuned a manipulator arm and ran a live robotics demo.",
+  },
+  {
+    title: "Indian Science Fest 2025",
+    org: "Fergusson College, Pune",
+    date: "2025",
+    note: "Explored AI diagnostics, quantum computing, and space-tech exhibits.",
+  },
+  {
+    title: "National Science Day",
+    org: "IISER Pune",
+    date: "Feb 2025",
+    note: "Met Padma Shri Arvind Gupta; discussed inclusive design-thinking projects.",
   },
 ];
 

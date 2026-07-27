@@ -1,23 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ["selector", ":root:not(.light)"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        void: "#0A0B0D",
-        panel: "#101319",
-        panel2: "#0D0F14",
-        line: "rgba(255,122,51,0.16)",
+        void: "rgb(var(--c-void) / <alpha-value>)",
+        panel: "rgb(var(--c-panel) / <alpha-value>)",
+        panel2: "rgb(var(--c-panel2) / <alpha-value>)",
+        line: "var(--c-line)",
         amber: {
-          DEFAULT: "#FF7A33",
-          soft: "#FFB073",
+          DEFAULT: "rgb(var(--c-amber) / <alpha-value>)",
+          soft: "rgb(var(--c-amber-soft) / <alpha-value>)",
         },
         cyan: {
-          DEFAULT: "#4FD1C5",
-          soft: "#9CE8DF",
+          DEFAULT: "rgb(var(--c-cyan) / <alpha-value>)",
+          soft: "rgb(var(--c-cyan-soft) / <alpha-value>)",
         },
-        ink: "#E7E9EC",
-        mute: "#8A8F98",
+        ink: "rgb(var(--c-ink) / <alpha-value>)",
+        mute: "rgb(var(--c-mute) / <alpha-value>)",
       },
       fontFamily: {
         display: ["Orbitron", "sans-serif"],
@@ -28,5 +29,6 @@ export default {
   },
   plugins: [],
 };
+
 
 

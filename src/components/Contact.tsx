@@ -1,8 +1,11 @@
-import { Code, Link as LinkIcon, Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Code, Link as LinkIcon, Mail, Phone, MapPin, FileDown } from "lucide-react";
 import FadeIn from "./FadeIn";
 import { profile } from "../data/content";
 
 export default function Contact() {
+  const [sent, setSent] = useState(false);
+
   return (
     <section id="contact" className="px-6 py-24 md:px-10 md:py-32">
       <FadeIn>
@@ -15,22 +18,127 @@ export default function Contact() {
         </h2>
       </FadeIn>
 
-      <FadeIn delay={0.1} className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-line bg-panel">
-        <div className="flex items-center gap-2 border-b border-line bg-panel2 px-4 py-3">
-          <span className="h-3 w-3 rounded-full bg-amber/70" />
-          <span className="h-3 w-3 rounded-full bg-cyan/70" />
-          <span className="h-3 w-3 rounded-full bg-mute/50" />
-          <span className="ml-3 font-mono text-xs text-mute">vannsh@portfolio: ~/contact</span>
-        </div>
-        <div className="space-y-4 p-6 font-mono text-sm md:p-8">
-          <ContactLine icon={<Mail size={16} />} label="email" value={profile.email} href={`mailto:${profile.email}`} />
-          <ContactLine icon={<Phone size={16} />} label="phone" value={profile.phone} />
-          <ContactLine icon={<LinkIcon size={16} />} label="linkedin" value={profile.linkedin} href={profile.linkedinUrl} />
-          <ContactLine icon={<Code size={16} />} label="github" value={profile.github} href={profile.githubUrl} />
-          <ContactLine icon={<MapPin size={16} />} label="location" value={profile.location} />
-        </div>
-      </FadeIn>
+      <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
+        <FadeIn delay={0.1} x={-15} y={0} className="overflow-hidden rounded-2xl border border-line bg-panel">
+          <div className="flex items-center gap-2 border-b border-line bg-panel2 px-4 py-3">
+            <span className="h-3 w-3 rounded-full bg-amber/70" />
+            <span className="h-3 w-3 rounded-full bg-cyan/70" />
+            <span className="h-3 w-3 rounded-full bg-mute/50" />
+            <span className="ml-3 font-mono text-xs text-mute">vannsh@portfolio: ~/contact</span>
+          </div>
+          <div className="space-y-4 p-6 font-mono text-sm md:p-8">
+            <ContactLine icon={<Mail size={16} />} label="email" value={profile.email} href={`mailto:${profile.email}`} />
+            <ContactLine icon={<Phone size={16} />} label="phone" value={profile.phone} />
+            <ContactLine icon={<LinkIcon size={16} />} label="linkedin" value={profile.linkedin} href={profile.linkedinUrl} />
+            <ContactLine icon={<Code size={16} />} label="github" value={profile.github} href={profile.githubUrl} />
+            <ContactLine icon={<MapPin size={16} />} label="location" value={profile.location} />
+            <ContactLine
+              icon={<FileDown size={16} />}
+              label="resume"
+              value="Vannsh-Shah-Resume.pdf"
+              href="/Vannsh-Shah-Resume.pdf"
+              download
+            />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.2} x={15} y={0} className="overflow-hidden rounded-2xl border border-line bg-panel">
+          <div className="flex items-center gap-2 border-b border-line bg-panel2 px-4 py-3">
+            <span className="h-3 w-3 rounded-full bg-amber/70" />
+            <span className="h-3 w-3 rounded-full bg-cyan/70" />
+            <span className="h-3 w-3 rounded-full bg-mute/50" />
+            <span className="ml-3 font-mono text-xs text-mute">vannsh@portfolio: ~/send-message</span>
+          </div>
+
+          {sent ? (
+            <div className="flex h-full flex-col items-center justify-center gap-2 p-10 text-center">
+              <span className="font-mono text-sm text-cyan">Message sent {"\u2014"} thanks!</span>
+              <span className="font-mono text-xs text-mute">I'll get back to you soon.</span>
+            </div>
+          ) : (
+            <form
+              action={`https://formsubmit.co/${profile.email}`}
+              method="POST"
+              onSubmit={() => setSent(true)}
+              className="space-y-4 p-6 md:p-8"
+            >
+              <input type="hidden" name="_subject" value="New message from portfolio" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="text" name="_honey" style={{ display: "none" }} />
+
+              <Field name="name" label="name" placeholder="Your name" required />
+              <Field name="email" label="email" type="email" placeholder="your@email.com" required />
+              <Field name="subject" label="subject" placeholder="What's this about?" />
+              <TextAreaField name="message" label="message" placeholder="Say hello..." required />
+
+              <button
+                type="submit"
+                className="w-full rounded-lg border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20"
+              >
+                Send Message
+              </button>
+            </form>
+          )}
+        </FadeIn>
+      </div>
     </section>
+  );
+}
+
+function Field({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  required,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block font-mono text-xs uppercase tracking-widest text-mute">
+        {label}
+      </span>
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        className="w-full rounded-lg border border-line bg-panel2 px-4 py-2.5 font-mono text-sm text-ink outline-none transition-colors focus:border-cyan/50"
+      />
+    </label>
+  );
+}
+
+function TextAreaField({
+  name,
+  label,
+  placeholder,
+  required,
+}: {
+  name: string;
+  label: string;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block font-mono text-xs uppercase tracking-widest text-mute">
+        {label}
+      </span>
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        rows={4}
+        className="w-full resize-y rounded-lg border border-line bg-panel2 px-4 py-2.5 font-mono text-sm text-ink outline-none transition-colors focus:border-cyan/50"
+      />
+    </label>
   );
 }
 
@@ -39,11 +147,13 @@ function ContactLine({
   label,
   value,
   href,
+  download,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   href?: string;
+  download?: boolean;
 }) {
   const content = (
     <span className="flex items-center gap-3 text-ink/90 transition-colors group-hover:text-amber-soft">
@@ -56,9 +166,15 @@ function ContactLine({
     <div className="group flex items-center gap-2">
       <span className="text-cyan">$</span>
       {href ? (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {content}
-        </a>
+        download ? (
+          <a href={href} download>
+            {content}
+          </a>
+        ) : (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {content}
+          </a>
+        )
       ) : (
         content
       )}

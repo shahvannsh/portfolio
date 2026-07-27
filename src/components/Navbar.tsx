@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { href: "#about", label: "About" },
@@ -24,7 +25,7 @@ export default function Navbar() {
           <span className="grad-text">VS</span>
           <span className="ml-1 text-mute">/// </span>
         </a>
-        <ul className="hidden gap-8 md:flex">
+        <ul className="hidden gap-8 md:flex md:items-center">
           {links.map((l) => (
             <li key={l.href}>
               <a
@@ -35,14 +36,16 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          <li>
+            <ThemeToggle />
+          </li>
         </ul>
-        <button
-          className="md:hidden text-ink"
-          onClick={() => setOpen(true)}
-          aria-label="Open menu"
-        >
-          <Menu size={22} />
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <ThemeToggle />
+          <button className="text-ink" onClick={() => setOpen(true)} aria-label="Open menu">
+            <Menu size={22} />
+          </button>
+        </div>
       </motion.nav>
 
       {open && (

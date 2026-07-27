@@ -75,6 +75,27 @@ export default function Hero() {
             &gt; {display}
             <span className="animate-pulse">_</span>
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="mt-8 flex flex-wrap gap-4"
+          >
+            <a
+              href="/Vannsh-Shah-Resume.pdf"
+              download="Vannsh-Shah-Resume.pdf"
+              className="rounded-full border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20"
+            >
+              Download Resume
+            </a>
+            <a
+              href="#projects"
+              className="rounded-full border border-line px-6 py-3 font-mono text-xs uppercase tracking-widest text-mute transition-colors hover:border-cyan/50 hover:text-cyan"
+            >
+              View Projects
+            </a>
+          </motion.div>
         </div>
 
         <Magnet padding={90} strength={5} className="shrink-0">

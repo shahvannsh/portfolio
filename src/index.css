@@ -8,38 +8,69 @@
   box-sizing: border-box;
 }
 
+:root {
+  --c-void: 10 11 13;
+  --c-panel: 16 19 25;
+  --c-panel2: 13 15 20;
+  --c-line: rgba(255, 122, 51, 0.16);
+  --c-amber: 255 122 51;
+  --c-amber-soft: 255 176 115;
+  --c-cyan: 79 209 197;
+  --c-cyan-soft: 156 232 223;
+  --c-ink: 231 233 236;
+  --c-mute: 138 143 152;
+  --c-grid-line: rgba(255, 122, 51, 0.05);
+  color-scheme: dark;
+}
+
+:root.light {
+  --c-void: 244 243 240;
+  --c-panel: 255 255 255;
+  --c-panel2: 236 234 229;
+  --c-line: rgba(180, 90, 30, 0.18);
+  --c-amber: 210 95 30;
+  --c-amber-soft: 170 75 20;
+  --c-cyan: 15 130 120;
+  --c-cyan-soft: 10 100 92;
+  --c-ink: 20 21 24;
+  --c-mute: 90 94 102;
+  --c-grid-line: rgba(180, 90, 30, 0.06);
+  color-scheme: light;
+}
+
 html,
 body,
 #root {
-  background: #0a0b0d;
+  background: rgb(var(--c-void));
   margin: 0;
   padding: 0;
   overflow-x: clip;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 body {
   font-family: "Space Grotesk", sans-serif;
-  color: #e7e9ec;
+  color: rgb(var(--c-ink));
 }
 
 ::selection {
-  background: #ff7a33;
-  color: #0a0b0d;
+  background: rgb(var(--c-amber));
+  color: rgb(var(--c-void));
 }
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0b0d;
+  background: rgb(var(--c-void));
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff7a33, #4fd1c5);
+  background: linear-gradient(180deg, rgb(var(--c-amber)), rgb(var(--c-cyan)));
   border-radius: 4px;
 }
 
 .grad-text {
-  background: linear-gradient(120deg, #ffb073 0%, #ff7a33 45%, #4fd1c5 100%);
+  background: linear-gradient(120deg, rgb(var(--c-amber-soft)) 0%, rgb(var(--c-amber)) 45%, rgb(var(--c-cyan)) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -47,8 +78,8 @@ body {
 
 .hud-grid {
   background-image:
-    linear-gradient(rgba(255, 122, 51, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 122, 51, 0.05) 1px, transparent 1px);
+    linear-gradient(var(--c-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--c-grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
