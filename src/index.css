@@ -15,6 +15,7 @@
   --c-line: rgba(255, 122, 51, 0.16);
   --c-amber: 255 122 51;
   --c-amber-soft: 255 176 115;
+  --c-amber-ghost: 155 79 40;
   --c-cyan: 79 209 197;
   --c-cyan-soft: 156 232 223;
   --c-ink: 231 233 236;
@@ -30,7 +31,8 @@
   --c-line: rgba(180, 90, 30, 0.18);
   --c-amber: 210 95 30;
   --c-amber-soft: 170 75 20;
-  --c-cyan: 15 130 120;
+  --c-amber-ghost: 218 124 71;
+  --c-cyan: 14 117 108;
   --c-cyan-soft: 10 100 92;
   --c-ink: 20 21 24;
   --c-mute: 90 94 102;

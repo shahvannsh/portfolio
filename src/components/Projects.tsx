@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeIn from "./FadeIn";
 import { projects } from "../data/content";
-import chotuScreenshot from "../assets/chotu-screenshot.png";
+import chotuScreenshot from "../assets/chotu-screenshot.webp";
 
 function Visual({ type }: { type: "swipe" | "screenshot" | "grid" }) {
   if (type === "screenshot") {
@@ -12,6 +12,8 @@ function Visual({ type }: { type: "swipe" | "screenshot" | "grid" }) {
           src={chotuScreenshot}
           alt="Chotu AI assistant dashboard"
           className="h-full w-full object-cover object-top"
+          loading="lazy"
+          decoding="async"
         />
       </div>
     );
@@ -80,7 +82,7 @@ function Card({
           <div className="flex flex-col justify-between">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-baseline gap-4">
-                <span className="font-display text-4xl font-extrabold text-amber/40 md:text-6xl">
+                <span className="font-display text-4xl font-extrabold text-[rgb(var(--c-amber-ghost))] md:text-6xl">
                   {project.id}
                 </span>
                 <div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Magnet from "./Magnet";
 import { profile, stats } from "../data/content";
-import avatar from "../assets/avatar.jpg";
+import avatar from "../assets/avatar.webp";
 
 const words = [
   "Building intelligent apps.",
