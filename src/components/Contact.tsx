@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { memo, useState } from "react";
+import type { FormEvent } from "react";
 import { Code, Link as LinkIcon, Mail, Phone, MapPin, FileDown } from "lucide-react";
 import FadeIn from "./FadeIn";
 import { profile } from "../data/content";
 
-export default function Contact() {
-  const [sent, setSent] = useState(false);
+type FormStatus = "idle" | "submitting" | "sent" | "error";
+
+function Contact() {
+  const [status, setStatus] = useState<FormStatus>("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("submitting");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+      if (response.ok) {
+        setStatus("sent");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section id="contact" className="px-6 py-24 md:px-10 md:py-32">
@@ -19,7 +45,12 @@ export default function Contact() {
       </FadeIn>
 
       <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
-        <FadeIn delay={0.1} x={-15} y={0} className="overflow-hidden rounded-2xl border border-line bg-panel">
+        <FadeIn
+          delay={0.1}
+          x={-15}
+          y={0}
+          className="overflow-hidden rounded-2xl border border-line bg-panel"
+        >
           <div className="flex items-center gap-2 border-b border-line bg-panel2 px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-amber/70" />
             <span className="h-3 w-3 rounded-full bg-cyan/70" />
@@ -27,10 +58,25 @@ export default function Contact() {
             <span className="ml-3 font-mono text-xs text-mute">vannsh@portfolio: ~/contact</span>
           </div>
           <div className="space-y-4 p-6 font-mono text-sm md:p-8">
-            <ContactLine icon={<Mail size={16} />} label="email" value={profile.email} href={`mailto:${profile.email}`} />
+            <ContactLine
+              icon={<Mail size={16} />}
+              label="email"
+              value={profile.email}
+              href={`mailto:${profile.email}`}
+            />
             <ContactLine icon={<Phone size={16} />} label="phone" value={profile.phone} />
-            <ContactLine icon={<LinkIcon size={16} />} label="linkedin" value={profile.linkedin} href={profile.linkedinUrl} />
-            <ContactLine icon={<Code size={16} />} label="github" value={profile.github} href={profile.githubUrl} />
+            <ContactLine
+              icon={<LinkIcon size={16} />}
+              label="linkedin"
+              value={profile.linkedin}
+              href={profile.linkedinUrl}
+            />
+            <ContactLine
+              icon={<Code size={16} />}
+              label="github"
+              value={profile.github}
+              href={profile.githubUrl}
+            />
             <ContactLine icon={<MapPin size={16} />} label="location" value={profile.location} />
             <ContactLine
               icon={<FileDown size={16} />}
@@ -42,15 +88,22 @@ export default function Contact() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.2} x={15} y={0} className="overflow-hidden rounded-2xl border border-line bg-panel">
+        <FadeIn
+          delay={0.2}
+          x={15}
+          y={0}
+          className="overflow-hidden rounded-2xl border border-line bg-panel"
+        >
           <div className="flex items-center gap-2 border-b border-line bg-panel2 px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-amber/70" />
             <span className="h-3 w-3 rounded-full bg-cyan/70" />
             <span className="h-3 w-3 rounded-full bg-mute/50" />
-            <span className="ml-3 font-mono text-xs text-mute">vannsh@portfolio: ~/send-message</span>
+            <span className="ml-3 font-mono text-xs text-mute">
+              vannsh@portfolio: ~/send-message
+            </span>
           </div>
 
-          {sent ? (
+          {status === "sent" ? (
             <div className="flex h-full flex-col items-center justify-center gap-2 p-10 text-center">
               <span className="font-mono text-sm text-cyan">Message sent {"\u2014"} thanks!</span>
               <span className="font-mono text-xs text-mute">I'll get back to you soon.</span>
@@ -59,7 +112,7 @@ export default function Contact() {
             <form
               action={`https://formsubmit.co/${profile.email}`}
               method="POST"
-              onSubmit={() => setSent(true)}
+              onSubmit={handleSubmit}
               className="space-y-4 p-6 md:p-8"
             >
               <input type="hidden" name="_subject" value="New message from portfolio" />
@@ -68,15 +121,32 @@ export default function Contact() {
               <input type="text" name="_honey" style={{ display: "none" }} />
 
               <Field name="name" label="name" placeholder="Your name" required />
-              <Field name="email" label="email" type="email" placeholder="your@email.com" required />
+              <Field
+                name="email"
+                label="email"
+                type="email"
+                placeholder="your@email.com"
+                required
+              />
               <Field name="subject" label="subject" placeholder="What's this about?" />
               <TextAreaField name="message" label="message" placeholder="Say hello..." required />
 
+              {status === "error" && (
+                <p role="alert" className="font-mono text-xs text-amber">
+                  Something went wrong sending that. Try again, or email me directly at{" "}
+                  <a href={`mailto:${profile.email}`} className="underline">
+                    {profile.email}
+                  </a>
+                  .
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full rounded-lg border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20"
+                disabled={status === "submitting"}
+                className="w-full rounded-lg border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Send Message
+                {status === "submitting" ? "Sending…" : "Send Message"}
               </button>
             </form>
           )}
@@ -181,3 +251,5 @@ function ContactLine({
     </div>
   );
 }
+
+export default memo(Contact);

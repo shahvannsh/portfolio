@@ -12,6 +12,7 @@ export default {
         amber: {
           DEFAULT: "rgb(var(--c-amber) / <alpha-value>)",
           soft: "rgb(var(--c-amber-soft) / <alpha-value>)",
+          ghost: "rgb(var(--c-amber-ghost) / <alpha-value>)",
         },
         cyan: {
           DEFAULT: "rgb(var(--c-cyan) / <alpha-value>)",
@@ -29,6 +30,3 @@ export default {
   },
   plugins: [],
 };
-
-
-

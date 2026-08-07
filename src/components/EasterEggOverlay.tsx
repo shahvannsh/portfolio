@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { useDialog } from "../hooks/useDialog";
 
 type EasterEggOverlayProps = {
   open: boolean;
@@ -10,19 +10,7 @@ type EasterEggOverlayProps = {
 };
 
 export default function EasterEggOverlay({ open, onClose, title, message }: EasterEggOverlayProps) {
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-
-    closeButtonRef.current?.focus();
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, onClose]);
+  const closeButtonRef = useDialog<HTMLButtonElement>(open, onClose);
 
   return (
     <AnimatePresence>

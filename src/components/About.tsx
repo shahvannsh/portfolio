@@ -1,8 +1,9 @@
+import { memo } from "react";
 import FadeIn from "./FadeIn";
 import AnimatedText from "./AnimatedText";
 import { passions, spokenLanguages } from "../data/content";
 
-export default function About() {
+function About() {
   return (
     <section id="about" className="px-6 py-24 md:px-10 md:py-32">
       <FadeIn>
@@ -70,3 +71,5 @@ export default function About() {
     </section>
   );
 }
+
+export default memo(About);

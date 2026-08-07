@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { profile } from "../data/content";
 import { useTheme, toggleTheme } from "../hooks/useTheme";
+import { useDialog } from "../hooks/useDialog";
 
 type Command = {
   id: string;
@@ -27,6 +28,7 @@ type Command = {
 type CommandPaletteProps = {
   open: boolean;
   onClose: () => void;
+  onToast?: (message: string) => void;
 };
 
 function downloadResume() {
@@ -38,13 +40,11 @@ function downloadResume() {
   document.body.removeChild(link);
 }
 
-async function copyEmail() {
-  try {
-    await navigator.clipboard.writeText(profile.email);
-  } catch {
-    // Clipboard API can fail without permissions/HTTPS in some contexts;
-    // the palette still closes cleanly, nothing else depends on this.
-  }
+function copyEmail(onToast?: (message: string) => void) {
+  navigator.clipboard
+    .writeText(profile.email)
+    .then(() => onToast?.("Email copied to clipboard"))
+    .catch(() => onToast?.(`Couldn't copy — email is ${profile.email}`));
 }
 
 const SECTIONS = [
@@ -55,13 +55,12 @@ const SECTIONS = [
   { href: "#contact", label: "Contact" },
 ];
 
-export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
+export default function CommandPalette({ open, onClose, onToast }: CommandPaletteProps) {
   const theme = useTheme();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const previouslyFocused = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useDialog<HTMLInputElement>(open, onClose);
 
   const commands: Command[] = useMemo(
     () => [
@@ -95,7 +94,7 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
         hint: profile.email,
         keywords: "contact mail",
         icon: <Mail size={15} />,
-        action: copyEmail,
+        action: () => copyEmail(onToast),
       },
       {
         id: "github",
@@ -114,7 +113,7 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
         action: () => window.open(profile.linkedinUrl, "_blank", "noopener,noreferrer"),
       },
     ],
-    [theme],
+    [theme, onToast],
   );
 
   const filtered = useMemo(() => {
@@ -133,24 +132,13 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
   }, [query, open]);
 
   useEffect(() => {
-    if (open) {
-      previouslyFocused.current = document.activeElement as HTMLElement | null;
-      setQuery("");
-      // Wait a tick so the element exists post-animation-mount.
-      requestAnimationFrame(() => inputRef.current?.focus());
-    } else {
-      previouslyFocused.current?.focus();
-    }
+    if (open) setQuery("");
   }, [open]);
 
   useEffect(() => {
     if (!open) return;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        onClose();
-        return;
-      }
       if (event.key === "ArrowDown") {
         event.preventDefault();
         setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));

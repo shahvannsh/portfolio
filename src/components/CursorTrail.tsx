@@ -127,10 +127,6 @@ export default function CursorTrail() {
   if (!enabled) return null;
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-40"
-    />
+    <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-40" />
   );
 }

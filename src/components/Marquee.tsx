@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { modules } from "../data/content";
 
-export default function Marquee() {
+function Marquee() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
 
@@ -19,7 +19,11 @@ export default function Marquee() {
   }, []);
 
   const row1 = [...modules, ...modules, ...modules];
-  const row2 = [...modules.slice().reverse(), ...modules.slice().reverse(), ...modules.slice().reverse()];
+  const row2 = [
+    ...modules.slice().reverse(),
+    ...modules.slice().reverse(),
+    ...modules.slice().reverse(),
+  ];
 
   return (
     <div ref={sectionRef} className="overflow-hidden border-y border-line py-10">
@@ -52,3 +56,5 @@ export default function Marquee() {
     </div>
   );
 }
+
+export default memo(Marquee);

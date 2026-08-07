@@ -1,3 +1,4 @@
+import { memo } from "react";
 import FadeIn from "./FadeIn";
 import { capabilities, certifications } from "../data/content";
 
@@ -9,7 +10,7 @@ const skillGroups = [
   { label: "Competitive Coding", items: capabilities.competitive },
 ];
 
-export default function Capabilities() {
+function Capabilities() {
   return (
     <section id="capabilities" className="px-6 py-24 md:px-10 md:py-32">
       <FadeIn>
@@ -69,3 +70,5 @@ export default function Capabilities() {
     </section>
   );
 }
+
+export default memo(Capabilities);

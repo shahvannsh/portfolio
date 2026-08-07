@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import { useDialog } from "../hooks/useDialog";
 
 const links = [
   { href: "#about", label: "About" },
@@ -18,19 +19,8 @@ type NavbarProps = {
 
 export default function Navbar({ onLogoClick, onOpenPalette }: NavbarProps) {
   const [open, setOpen] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-
-    closeButtonRef.current?.focus();
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open]);
+  const closeMenu = () => setOpen(false);
+  const closeButtonRef = useDialog<HTMLButtonElement>(open, closeMenu);
 
   return (
     <>
