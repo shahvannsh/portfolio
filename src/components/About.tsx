@@ -1,7 +1,18 @@
 import { memo } from "react";
+import { motion } from "framer-motion";
+import { Sparkles, Globe, MapPin, Cpu, Radio } from "lucide-react";
 import FadeIn from "./FadeIn";
 import AnimatedText from "./AnimatedText";
-import { passions, spokenLanguages } from "../data/content";
+import { profile, passions, spokenLanguages, stats } from "../data/content";
+
+const statusRows = [
+  { icon: Cpu, label: "Role", value: profile.role },
+  { icon: MapPin, label: "Location", value: profile.location },
+  { icon: Radio, label: "Building", value: "Chotu \u2014 AI study assistant" },
+];
+
+const certStat = stats.find((s) => s.label === "Certifications");
+const projectStat = stats.find((s) => s.label === "Projects Shipped");
 
 function About() {
   return (
@@ -16,58 +27,113 @@ function About() {
         </h2>
       </FadeIn>
 
-      <AnimatedText
-        className="max-w-3xl font-body text-xl leading-relaxed text-ink md:text-2xl"
-        text="Aspiring Computer Science Engineer and tech & sustainability enthusiast. I'm a third-year CSE student building AI-first products with a strong C++/Python foundation. Currently an AI-ML Intern at Nova Techset, holder of 16 completed AI/ML certifications across AWS, Google Cloud and OpenAI, and the builder behind Chotu, an Iron-Man-inspired study assistant, and CareerConnecting, a swipe-based job matching app."
-      />
-
-      <FadeIn delay={0.15} className="mt-10 grid gap-8 md:grid-cols-2">
+      <div className="grid gap-10 md:grid-cols-[1.3fr_1fr] md:gap-14">
         <div>
-          <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-amber-soft">
-            Passions
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {passions.map((p) => (
-              <span
-                key={p}
-                className="rounded-full border border-line bg-panel px-3 py-1.5 text-xs text-ink/85"
-              >
-                {p}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-cyan">
-            Languages
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {spokenLanguages.map((l) => (
-              <span
-                key={l}
-                className="rounded-full border border-line bg-panel2 px-3 py-1.5 text-xs text-ink/85"
-              >
-                {l}
-              </span>
-            ))}
-          </div>
-        </div>
-      </FadeIn>
+          <AnimatedText
+            className="max-w-2xl font-body text-xl leading-relaxed text-ink md:text-2xl"
+            text="Aspiring Computer Science Engineer and tech & sustainability enthusiast. I'm a third-year CSE student building AI-first products with a strong C++/Python foundation. Currently an AI-ML Intern at Nova Techset, holder of 16 completed AI/ML certifications across AWS, Google Cloud and OpenAI, and the builder behind Chotu, an Iron-Man-inspired study assistant, and CareerConnecting, a swipe-based job matching app."
+          />
 
-      <FadeIn delay={0.25} className="mt-10 flex flex-wrap gap-4">
-        <a
-          href="#projects"
-          className="rounded-full border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20"
-        >
-          View Projects
-        </a>
-        <a
-          href="#contact"
-          className="rounded-full border border-line px-6 py-3 font-mono text-xs uppercase tracking-widest text-mute transition-colors hover:border-cyan/50 hover:text-cyan"
-        >
-          Get In Touch
-        </a>
-      </FadeIn>
+          <FadeIn delay={0.15} className="mt-10 grid gap-8 sm:grid-cols-2">
+            <div>
+              <h3 className="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-amber-soft">
+                <Sparkles size={13} />
+                Passions
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {passions.map((p) => (
+                  <span
+                    key={p}
+                    className="rounded-full border border-line bg-panel px-3 py-1.5 text-xs text-ink/85 transition-colors hover:border-amber/50 hover:text-amber-soft"
+                  >
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-cyan">
+                <Globe size={13} />
+                Languages
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {spokenLanguages.map((l) => (
+                  <span
+                    key={l}
+                    className="rounded-full border border-line bg-panel2 px-3 py-1.5 text-xs text-ink/85 transition-colors hover:border-cyan/50 hover:text-cyan"
+                  >
+                    {l}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.25} className="mt-10 flex flex-wrap gap-4">
+            <a
+              href="#projects"
+              className="rounded-full border border-amber/50 bg-amber/10 px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber-soft transition-colors hover:bg-amber/20"
+            >
+              View Projects
+            </a>
+            <a
+              href="#contact"
+              className="rounded-full border border-line px-6 py-3 font-mono text-xs uppercase tracking-widest text-mute transition-colors hover:border-cyan/50 hover:text-cyan"
+            >
+              Get In Touch
+            </a>
+          </FadeIn>
+        </div>
+
+        <FadeIn x={15} y={0} delay={0.1}>
+          <div className="relative overflow-hidden rounded-lg border border-line bg-panel p-6 shadow-[0_0_40px_rgba(255,122,51,0.08)]">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(var(--c-amber) 1px, transparent 1px), linear-gradient(90deg, var(--c-amber) 1px, transparent 1px)",
+                backgroundSize: "20px 20px",
+              }}
+            />
+
+            <div className="relative mb-5 flex items-center justify-between">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mute">
+                System Profile
+              </span>
+              <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan">
+                <motion.span
+                  className="h-1.5 w-1.5 rounded-full bg-cyan"
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+                Online
+              </span>
+            </div>
+
+            <div className="relative space-y-4">
+              {statusRows.map((row) => (
+                <div key={row.label} className="flex items-start gap-3 border-t border-line pt-4 first:border-t-0 first:pt-0">
+                  <row.icon size={15} className="mt-0.5 shrink-0 text-amber" />
+                  <div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-mute">
+                      {row.label}
+                    </div>
+                    <div className="mt-0.5 text-sm text-ink">{row.value}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative mt-5 border-t border-line pt-4 font-mono text-[11px] text-mute">
+              <span className="text-amber">{certStat?.value ?? "16"}</span>{" "}
+              {(certStat?.label ?? "Certifications").toLowerCase()} {"\u00b7"}{" "}
+              <span className="text-cyan">{projectStat?.value ?? "07"}</span>{" "}
+              {(projectStat?.label ?? "Projects Shipped").toLowerCase()}
+            </div>
+          </div>
+        </FadeIn>
+      </div>
     </section>
   );
 }
