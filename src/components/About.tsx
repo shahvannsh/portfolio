@@ -1,12 +1,13 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Globe, MapPin, Cpu, Radio } from "lucide-react";
+import { Sparkles, Globe, MapPin, Cpu, Radio, Users } from "lucide-react";
 import FadeIn from "./FadeIn";
 import AnimatedText from "./AnimatedText";
 import { profile, passions, spokenLanguages, stats } from "../data/content";
 
 const statusRows = [
   { icon: Cpu, label: "Role", value: profile.role },
+  { icon: Users, label: "Position", value: profile.position },
   { icon: MapPin, label: "Location", value: profile.location },
   { icon: Radio, label: "Building", value: "Chotu \u2014 AI study assistant" },
 ];

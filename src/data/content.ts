@@ -3,6 +3,7 @@ export const profile = {
   role: "Computer Science Engineer",
   tagline: "AI/ML & Full-Stack Development",
   location: "Pune, Maharashtra, India",
+  position: "Campus Ambassador, IIT Bombay E-Cell",
   email: "shahvannsh@gmail.com",
   phone: "+91 86689 95892",
   linkedin: "linkedin.com/in/vannsh-shah-67271a309",
@@ -84,6 +85,7 @@ export const projects = [
       "A swipe-based job-matching platform for students and jobseekers \u2014 smart job suggestions, resume upload, XP tracking, and AI-guided career paths, with an off-white and gold interface.",
     stack: ["C++", "QML", "UI/UX"],
     visual: "swipe" as const,
+    liveUrl: "https://career-connect-221yt836g-shahvannsh-9258s-projects.vercel.app/",
   },
   {
     id: "02",
