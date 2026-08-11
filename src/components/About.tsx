@@ -9,7 +9,7 @@ const statusRows = [
   { icon: Cpu, label: "Role", value: profile.role },
   { icon: Users, label: "Position", value: profile.position },
   { icon: MapPin, label: "Location", value: profile.location },
-  { icon: Radio, label: "Building", value: "Chotu \u2014 AI study assistant" },
+  { icon: Radio, label: "Building", value: "Chotu — AI study assistant" },
 ];
 
 const certStat = stats.find((s) => s.label === "Certifications");
@@ -32,7 +32,7 @@ function About() {
         <div>
           <AnimatedText
             className="max-w-2xl font-body text-xl leading-relaxed text-ink md:text-2xl"
-            text="Aspiring Computer Science Engineer and tech & sustainability enthusiast. I'm a third-year CSE student building AI-first products with a strong C++/Python foundation. Currently an AI-ML Intern at Nova Techset, holder of 16 completed AI/ML certifications across AWS, Google Cloud and OpenAI, and the builder behind Chotu, an Iron-Man-inspired study assistant, and CareerConnecting, a swipe-based job matching app."
+            text="Third-year Computer Science Engineering student with a strong foundation in C++ and Python, focused on AI/ML and full-stack development. I completed an AI-ML internship at Nova Techset, working hands-on with applied machine learning in a production environment. Outside of that, I build things I actually use — Chotu, an Iron-Man-inspired study assistant, and CareerConnecting, a swipe-based job-matching app — and hold 16 completed certifications across AWS, Google Cloud, and OpenAI. Also a tech & sustainability enthusiast."
           />
 
           <FadeIn delay={0.15} className="mt-10 grid gap-8 sm:grid-cols-2">

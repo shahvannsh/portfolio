@@ -15,7 +15,7 @@ export const profile = {
 export const modules = [
   "C++", "Python", "JavaScript", "Java", "SQL", "React",
   "PostgreSQL", "MongoDB", "Pandas", "NumPy", "Matplotlib",
-  "OpenCV", "Deep Learning", "Generative AI", "Git", "Linux",
+  "OpenCV", "Git", "Linux",
 ];
 
 export const journey = [
@@ -95,7 +95,7 @@ export const projects = [
     period: "Mar 2026 \u2013 Present",
     description:
       "An Iron-Man-inspired personal AI assistant with focus sessions, distraction tracking, an analytics dashboard, roast-mode accountability, and a resume-building tool.",
-    stack: ["Python", "Flask/FastAPI", "AI Agents"],
+    stack: ["Python", "Flask/FastAPI"],
     visual: "screenshot" as const,
   },
   {
@@ -114,7 +114,7 @@ export const projects = [
 export const capabilities = {
   languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL"],
   databases: ["MySQL", "PostgreSQL", "MongoDB", "Microsoft Access"],
-  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda", "Generative AI tooling"],
+  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda"],
   tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "HubSpot", "Linux", "Windows", "macOS"],
   competitive: ["HackerRank", "LeetCode", "CodeChef"],
 };
@@ -125,7 +125,6 @@ export const spokenLanguages = [
 
 export const passions = [
   "AI & Machine Learning",
-  "Agentic AI",
   "Full-Stack App Development",
   "Design & Inspirational Models",
   "Sustainability in Tech",
@@ -215,5 +214,5 @@ export const stats = [
   { value: "16", label: "Certifications" },
   { value: "3rd", label: "Year, B.Tech CSE" },
   { value: "07", label: "Projects Shipped" },
-  { value: "30+", label: "Marathons Run" },
+  { value: "30+", label: "Hackathons Attended" },
 ];
