@@ -116,7 +116,7 @@ export const capabilities = {
   databases: ["MySQL", "PostgreSQL", "MongoDB", "Microsoft Access"],
   aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda", "Gymnasium"],
   frameworks: ["Flask", "FastAPI", "QML", "REST APIs"],
-  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Linux", "Windows", "macOS"],
+  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Canva", "Linux", "Windows", "macOS"],
   competitive: ["HackerRank", "LeetCode", "CodeChef"],
 };
 
