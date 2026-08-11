@@ -6,6 +6,7 @@ const skillGroups = [
   { label: "Languages", items: capabilities.languages },
   { label: "Databases", items: capabilities.databases },
   { label: "AI / Data", items: capabilities.aiData },
+  { label: "Frameworks", items: capabilities.frameworks },
   { label: "Tools", items: capabilities.tools },
   { label: "Competitive Coding", items: capabilities.competitive },
 ];

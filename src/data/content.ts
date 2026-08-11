@@ -114,8 +114,9 @@ export const projects = [
 export const capabilities = {
   languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL"],
   databases: ["MySQL", "PostgreSQL", "MongoDB", "Microsoft Access"],
-  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda"],
-  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "HubSpot", "Linux", "Windows", "macOS"],
+  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda", "Gymnasium"],
+  frameworks: ["Flask", "FastAPI", "QML", "REST APIs"],
+  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Linux", "Windows", "macOS"],
   competitive: ["HackerRank", "LeetCode", "CodeChef"],
 };
 
