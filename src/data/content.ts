@@ -112,11 +112,39 @@ export const projects = [
 ];
 
 export const capabilities = {
-  languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL"],
+  languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "SVG"],
   databases: ["MySQL", "PostgreSQL", "MongoDB", "Microsoft Access"],
-  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda", "Gymnasium"],
-  frameworks: ["Flask", "FastAPI", "QML", "REST APIs", "Requests", "playsound"],
-  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Canva", "Jupyter", "Linux", "Windows", "macOS"],
+  vectorDatabases: ["Pinecone", "FAISS", "Chroma"],
+  aiData: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly", "OpenCV", "Anaconda"],
+  machineLearning: [
+    "Regression",
+    "Classification",
+    "Clustering",
+    "Random Forest",
+    "XGBoost",
+    "Neural Networks",
+    "Deep Learning",
+    "CNNs",
+    "RNNs/LSTMs",
+    "Transformers",
+    "Backpropagation",
+    "Regularization",
+    "Gymnasium",
+  ],
+  computerVision: ["Image Augmentation", "Object Detection", "Image Segmentation"],
+  llmNlp: [
+    "Tokenization",
+    "Embeddings",
+    "Attention Mechanisms",
+    "Hugging Face",
+    "LangChain",
+    "LlamaIndex",
+    "Prompt Engineering",
+    "RAG",
+    "Deep Agents",
+  ],
+  frameworks: ["Flask", "FastAPI", "QML", "REST APIs", "GraphQL", "Requests", "playsound", "Docker"],
+  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Canva", "Jupyter", "Unit Testing", "Linux", "Windows", "macOS"],
   competitive: ["HackerRank", "LeetCode", "CodeChef"],
 };
 

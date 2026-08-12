@@ -5,7 +5,11 @@ import { capabilities, certifications } from "../data/content";
 const skillGroups = [
   { label: "Languages", items: capabilities.languages },
   { label: "Databases", items: capabilities.databases },
+  { label: "Vector Databases", items: capabilities.vectorDatabases },
   { label: "AI / Data", items: capabilities.aiData },
+  { label: "Machine Learning", items: capabilities.machineLearning },
+  { label: "Computer Vision", items: capabilities.computerVision },
+  { label: "LLM & NLP", items: capabilities.llmNlp },
   { label: "Frameworks", items: capabilities.frameworks },
   { label: "Tools", items: capabilities.tools },
   { label: "Competitive Coding", items: capabilities.competitive },
