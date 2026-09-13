@@ -1,15 +1,21 @@
+import { memo } from "react";
 import FadeIn from "./FadeIn";
 import { capabilities, certifications } from "../data/content";
 
 const skillGroups = [
   { label: "Languages", items: capabilities.languages },
   { label: "Databases", items: capabilities.databases },
+  { label: "Vector Databases", items: capabilities.vectorDatabases },
   { label: "AI / Data", items: capabilities.aiData },
+  { label: "Machine Learning", items: capabilities.machineLearning },
+  { label: "Computer Vision", items: capabilities.computerVision },
+  { label: "LLM & NLP", items: capabilities.llmNlp },
+  { label: "Frameworks", items: capabilities.frameworks },
   { label: "Tools", items: capabilities.tools },
   { label: "Competitive Coding", items: capabilities.competitive },
 ];
 
-export default function Capabilities() {
+function Capabilities() {
   return (
     <section id="capabilities" className="px-6 py-24 md:px-10 md:py-32">
       <FadeIn>
@@ -69,3 +75,5 @@ export default function Capabilities() {
     </section>
   );
 }
+
+export default memo(Capabilities);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 const readouts = [
   "STATUS: ONLINE",
   "ROLE: CS ENGINEER \u2014 AI/ML",
@@ -7,7 +8,7 @@ const readouts = [
   "YEAR: 3RD \u00b7 B.TECH CSE",
 ];
 
-export default function HUDTicker() {
+function HUDTicker() {
   const loop = [...readouts, ...readouts];
   return (
     <div className="w-full overflow-hidden border-b border-line bg-panel2 font-mono text-[11px] tracking-[0.2em] text-cyan">
@@ -28,3 +29,5 @@ export default function HUDTicker() {
     </div>
   );
 }
+
+export default memo(HUDTicker);

@@ -3,6 +3,7 @@ export const profile = {
   role: "Computer Science Engineer",
   tagline: "AI/ML & Full-Stack Development",
   location: "Pune, Maharashtra, India",
+  position: "Campus Ambassador, IIT Bombay E-Cell",
   email: "shahvannsh@gmail.com",
   phone: "+91 86689 95892",
   linkedin: "linkedin.com/in/vannsh-shah-67271a309",
@@ -14,7 +15,7 @@ export const profile = {
 export const modules = [
   "C++", "Python", "JavaScript", "Java", "SQL", "React",
   "PostgreSQL", "MongoDB", "Pandas", "NumPy", "Matplotlib",
-  "OpenCV", "Deep Learning", "Generative AI", "Git", "Linux",
+  "OpenCV", "Git", "Linux",
 ];
 
 export const journey = [
@@ -43,12 +44,13 @@ export const journey = [
   {
     tag: "LOG_03",
     date: "Mar 2026",
-    title: "Main Coordinator, Dishayam 2026",
+    title: "Volunteer, Dishayam 2026",
     org: "DES Pune University Innovation & Startup Association",
     meta: "NAV-\u0909\u0928\u094d\u092e\u0947\u0937 2026 Tech Fest",
     points: [
-      "Led planning and execution of a Proof-of-Concept showcase and a startup Ideathon, coordinating a 7-person team.",
-      "Volunteered on the marketing team, promoting the fest across colleges both online and offline.",
+      "Coordinated with judges \u2014 inviting and hosting them \u2014 for a Proof-of-Concept showcase and startup Ideathon.",
+      "Managed the technical execution of the event and assigned tasks across a 7-person team, coordinating through multiple late-night and full-day working sessions.",
+      "Supported event planning and marketing, promoting the fest across colleges both online and offline.",
     ],
   },
   {
@@ -84,6 +86,7 @@ export const projects = [
       "A swipe-based job-matching platform for students and jobseekers \u2014 smart job suggestions, resume upload, XP tracking, and AI-guided career paths, with an off-white and gold interface.",
     stack: ["C++", "QML", "UI/UX"],
     visual: "swipe" as const,
+    liveUrl: "https://career-connect-221yt836g-shahvannsh-9258s-projects.vercel.app/",
   },
   {
     id: "02",
@@ -93,7 +96,7 @@ export const projects = [
     period: "Mar 2026 \u2013 Present",
     description:
       "An Iron-Man-inspired personal AI assistant with focus sessions, distraction tracking, an analytics dashboard, roast-mode accountability, and a resume-building tool.",
-    stack: ["Python", "Flask/FastAPI", "AI Agents"],
+    stack: ["Python", "Flask/FastAPI"],
     visual: "screenshot" as const,
   },
   {
@@ -110,10 +113,39 @@ export const projects = [
 ];
 
 export const capabilities = {
-  languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL"],
+  languages: ["C", "C++", "Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "SVG"],
   databases: ["MySQL", "PostgreSQL", "MongoDB", "Microsoft Access"],
-  aiData: ["Pandas", "NumPy", "Matplotlib", "OpenCV", "Anaconda", "Generative AI tooling"],
-  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "HubSpot", "Linux", "Windows", "macOS"],
+  vectorDatabases: ["Pinecone", "FAISS", "Chroma"],
+  aiData: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly", "OpenCV", "Anaconda"],
+  machineLearning: [
+    "Regression",
+    "Classification",
+    "Clustering",
+    "Random Forest",
+    "XGBoost",
+    "Neural Networks",
+    "Deep Learning",
+    "CNNs",
+    "RNNs/LSTMs",
+    "Transformers",
+    "Backpropagation",
+    "Regularization",
+    "Gymnasium",
+  ],
+  computerVision: ["Image Augmentation", "Object Detection", "Image Segmentation"],
+  llmNlp: [
+    "Tokenization",
+    "Embeddings",
+    "Attention Mechanisms",
+    "Hugging Face",
+    "LangChain",
+    "LlamaIndex",
+    "Prompt Engineering",
+    "RAG",
+    "Deep Agents",
+  ],
+  frameworks: ["Flask", "FastAPI", "QML", "REST APIs", "GraphQL", "Requests", "playsound", "Docker"],
+  tools: ["Git", "Visual Studio", "Replit", "IntelliJ IDEA", "Gamma", "Canva", "Jupyter", "Unit Testing", "Linux", "Windows", "macOS"],
   competitive: ["HackerRank", "LeetCode", "CodeChef"],
 };
 
@@ -123,7 +155,6 @@ export const spokenLanguages = [
 
 export const passions = [
   "AI & Machine Learning",
-  "Agentic AI",
   "Full-Stack App Development",
   "Design & Inspirational Models",
   "Sustainability in Tech",
@@ -213,5 +244,5 @@ export const stats = [
   { value: "16", label: "Certifications" },
   { value: "3rd", label: "Year, B.Tech CSE" },
   { value: "07", label: "Projects Shipped" },
-  { value: "30+", label: "Marathons Run" },
+  { value: "30+", label: "Hackathons Attended" },
 ];

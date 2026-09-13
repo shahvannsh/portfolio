@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Magnet from "./Magnet";
 import { profile, stats } from "../data/content";
@@ -11,7 +11,7 @@ const words = [
   "Currently deployed: Chotu AI Assistant.",
 ];
 
-export default function Hero() {
+function Hero() {
   const [wordIndex, setWordIndex] = useState(0);
   const [display, setDisplay] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -126,9 +126,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 + i * 0.08 }}
           >
-            <div className="font-display text-2xl font-bold text-ink md:text-3xl">
-              {s.value}
-            </div>
+            <div className="font-display text-2xl font-bold text-ink md:text-3xl">{s.value}</div>
             <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-mute">
               {s.label}
             </div>
@@ -138,3 +136,5 @@ export default function Hero() {
     </section>
   );
 }
+
+export default memo(Hero);

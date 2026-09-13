@@ -1,5 +1,6 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import FadeIn from "./FadeIn";
 import { projects } from "../data/content";
 import chotuScreenshot from "../assets/chotu-screenshot.webp";
@@ -73,7 +74,11 @@ function Card({
   const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
 
   return (
-    <div ref={ref} className="sticky top-20 h-[76vh] md:top-28" style={{ top: `${80 + index * 24}px` }}>
+    <div
+      ref={ref}
+      className="sticky top-20 h-[76vh] md:top-28"
+      style={{ top: `${80 + index * 24}px` }}
+    >
       <motion.div
         style={{ scale }}
         className="h-full w-full rounded-[32px] border-2 border-line bg-panel p-6 shadow-2xl md:p-10"
@@ -82,7 +87,7 @@ function Card({
           <div className="flex flex-col justify-between">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-baseline gap-4">
-                <span className="font-display text-4xl font-extrabold text-[rgb(var(--c-amber-ghost))] md:text-6xl">
+                <span className="font-display text-4xl font-extrabold text-amber-ghost md:text-6xl">
                   {project.id}
                 </span>
                 <div>
@@ -104,7 +109,7 @@ function Card({
               <p className="mb-5 max-w-2xl text-base leading-relaxed text-ink/85 md:text-lg">
                 {project.description}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {project.stack.map((s) => (
                   <span
                     key={s}
@@ -113,6 +118,17 @@ function Card({
                     {s}
                   </span>
                 ))}
+                {"liveUrl" in project && project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 rounded-full border border-cyan/40 bg-cyan/5 px-3 py-1 font-mono text-xs text-cyan transition-colors hover:bg-cyan/15"
+                  >
+                    View Live
+                    <ExternalLink size={11} />
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -126,7 +142,7 @@ function Card({
   );
 }
 
-export default function Projects() {
+function Projects() {
   return (
     <section id="projects" className="bg-panel2 px-6 pb-24 pt-24 md:px-10 md:pb-40 md:pt-32">
       <FadeIn>
@@ -147,3 +163,5 @@ export default function Projects() {
     </section>
   );
 }
+
+export default memo(Projects);

@@ -20,11 +20,7 @@ function Char({
   const start = index / total;
   const end = start + 1 / total;
   const opacity = useTransform(progress, [start, end], [0.15, 1]);
-  return (
-    <motion.span style={{ opacity }}>
-      {char === " " ? "\u00A0" : char}
-    </motion.span>
-  );
+  return <motion.span style={{ opacity }}>{char}</motion.span>;
 }
 
 export default function AnimatedText({ text, className = "" }: AnimatedTextProps) {

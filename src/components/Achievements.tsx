@@ -1,7 +1,8 @@
+import { memo } from "react";
 import FadeIn from "./FadeIn";
 import { achievements } from "../data/content";
 
-export default function Achievements() {
+function Achievements() {
   return (
     <section className="bg-panel2 px-6 py-20 md:px-10 md:py-24">
       <FadeIn>
@@ -16,7 +17,11 @@ export default function Achievements() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {achievements.map((a, i) => (
-          <FadeIn key={a.title} delay={i * 0.06} className="rounded-2xl border border-line bg-panel p-6">
+          <FadeIn
+            key={a.title}
+            delay={i * 0.06}
+            className="rounded-2xl border border-line bg-panel p-6"
+          >
             <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-amber-soft">
               {a.date}
             </div>
@@ -29,3 +34,5 @@ export default function Achievements() {
     </section>
   );
 }
+
+export default memo(Achievements);
