@@ -44,12 +44,13 @@ export const journey = [
   {
     tag: "LOG_03",
     date: "Mar 2026",
-    title: "Main Coordinator, Dishayam 2026",
+    title: "Volunteer, Dishayam 2026",
     org: "DES Pune University Innovation & Startup Association",
     meta: "NAV-\u0909\u0928\u094d\u092e\u0947\u0937 2026 Tech Fest",
     points: [
-      "Led planning and execution of a Proof-of-Concept showcase and a startup Ideathon, coordinating a 7-person team.",
-      "Volunteered on the marketing team, promoting the fest across colleges both online and offline.",
+      "Coordinated with judges \u2014 inviting and hosting them \u2014 for a Proof-of-Concept showcase and startup Ideathon.",
+      "Managed the technical execution of the event and assigned tasks across a 7-person team, coordinating through multiple late-night and full-day working sessions.",
+      "Supported event planning and marketing, promoting the fest across colleges both online and offline.",
     ],
   },
   {
