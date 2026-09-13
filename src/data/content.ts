@@ -44,17 +44,28 @@ export const journey = [
   {
     tag: "LOG_03",
     date: "Mar 2026",
-    title: "Volunteer, Dishayam 2026",
+    title: "Main Coordinator, Dishayam 2026",
     org: "DES Pune University Innovation & Startup Association",
     meta: "NAV-\u0909\u0928\u094d\u092e\u0947\u0937 2026 Tech Fest",
     points: [
-      "Coordinated with judges \u2014 inviting and hosting them \u2014 for a Proof-of-Concept showcase and startup Ideathon.",
-      "Managed the technical execution of the event and assigned tasks across a 7-person team, coordinating through multiple late-night and full-day working sessions.",
-      "Supported event planning and marketing, promoting the fest across colleges both online and offline.",
+      "Led planning and execution of a Proof-of-Concept showcase and a startup Ideathon, coordinating a 7-person team.",
+      "Volunteered on the marketing team, promoting the fest across colleges both online and offline.",
     ],
   },
   {
     tag: "LOG_04",
+    date: "Aug 2026",
+    title: "Technical Coordinator, Euraka 2026",
+    org: "DES Pune University",
+    meta: "27 Aug 2026",
+    points: [
+      "Coordinated with judges \u2014 inviting and hosting them \u2014 for the event.",
+      "Managed the entire technical execution of the event and assigned work across the team.",
+      "Worked through multiple late-night and full-day sessions to deliver the event.",
+    ],
+  },
+  {
+    tag: "LOG_05",
     date: "2026",
     title: "Hackathon \u2014 \u201cVibraRelief Duo\u201d",
     org: "Navonmesh 2026 \u00b7 24-hr National Hackathon, MES IMCC Pune",
@@ -64,7 +75,7 @@ export const journey = [
     ],
   },
   {
-    tag: "LOG_05",
+    tag: "LOG_06",
     date: "Ongoing",
     title: "Student Mentor \u2014 Python & Canva Workshops",
     org: "DES New English Medium School",
