@@ -1,7 +1,17 @@
 import { memo, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { motion } from "framer-motion";
-import { Code, Link as LinkIcon, Mail, Phone, MapPin, FileDown, Send } from "lucide-react";
+import {
+  AtSign,
+  Code,
+  Link as LinkIcon,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  FileDown,
+  Send,
+} from "lucide-react";
 import FadeIn from "./FadeIn";
 import { profile } from "../data/content";
 
@@ -18,6 +28,13 @@ const contactMethods = [
     icon: Phone,
     label: "Phone",
     value: profile.phone,
+    href: profile.phoneHref,
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: profile.phone,
+    href: profile.whatsappUrl,
   },
   {
     icon: LinkIcon,
@@ -32,9 +49,16 @@ const contactMethods = [
     href: profile.githubUrl,
   },
   {
+    icon: AtSign,
+    label: "Instagram",
+    value: profile.instagram,
+    href: profile.instagramUrl,
+  },
+  {
     icon: MapPin,
     label: "Location",
     value: profile.location,
+    href: profile.mapsUrl,
   },
   {
     icon: FileDown,
@@ -292,7 +316,12 @@ function ContactRow({
       {inner}
     </a>
   ) : (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={rowClass}>
+    <a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      className={rowClass}
+    >
       {inner}
     </a>
   );

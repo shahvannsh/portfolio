@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/card", "destination": "/card.html" },
+    { "source": "/card/", "destination": "/card.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

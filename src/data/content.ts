@@ -10,6 +10,12 @@ export const profile = {
   linkedinUrl: "https://linkedin.com/in/vannsh-shah-67271a309",
   github: "github.com/shahvannsh",
   githubUrl: "https://github.com/shahvannsh",
+  phoneHref: "tel:+918668995892",
+  whatsappUrl: "https://wa.me/918668995892",
+  instagram: "instagram.com/vannsh_shah_2006",
+  instagramUrl: "https://instagram.com/vannsh_shah_2006",
+  siteUrl: "https://portfolio-mu-ruby-37.vercel.app/",
+  mapsUrl: "https://maps.google.com/?q=Pune,Maharashtra,India",
 };
 
 export const modules = [

@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Vannsh Shah
+N:Shah;Vannsh;;;
+TITLE:Computer Science Engineer
+TEL;TYPE=CELL:+918668995892
+EMAIL;TYPE=INTERNET:shahvannsh@gmail.com
+URL:https://portfolio-mu-ruby-37.vercel.app/
+URL;TYPE=LinkedIn:https://linkedin.com/in/vannsh-shah-67271a309
+URL;TYPE=GitHub:https://github.com/shahvannsh
+URL;TYPE=Instagram:https://instagram.com/vannsh_shah_2006
+ADR;TYPE=HOME:;;;Pune;Maharashtra;;India
+END:VCARD
