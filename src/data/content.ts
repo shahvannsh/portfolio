@@ -3,7 +3,7 @@ export const profile = {
   role: "Computer Science Engineer",
   tagline: "AI/ML & Full-Stack Development",
   location: "Pune, Maharashtra, India",
-  position: "Campus Ambassador, IIT Bombay E-Cell",
+  position: "Former Campus Ambassador, IIT Bombay E-Cell",
   email: "shahvannsh@gmail.com",
   phone: "+91 86689 95892",
   linkedin: "linkedin.com/in/vannsh-shah-67271a309",
@@ -38,13 +38,13 @@ export const journey = [
   },
   {
     tag: "LOG_02",
-    date: "Jun 2026 \u2013 Present",
+    date: "Jun 2026 \u2013 Nov 2026",
     title: "Campus Ambassador",
     org: "E-Cell, IIT Bombay",
     meta: "Internship \u00b7 Remote",
     points: [
-      "Represent E-Cell IIT Bombay on campus, promoting entrepreneurship and innovation programs to fellow students.",
-      "Selected as part of a national student network fostering leadership and startup awareness.",
+      "Represented E-Cell IIT Bombay on campus, promoting entrepreneurship and innovation programs to fellow students.",
+      "Was selected as part of a national student network fostering leadership and startup awareness.",
     ],
   },
   {

@@ -26,7 +26,7 @@ const REACTIONS = [
 ] as const;
 
 type Direction = (typeof DIRECTIONS)[number];
-type Reaction = (typeof REACTIONS)[number];
+export type Reaction = (typeof REACTIONS)[number];
 
 const CLOCKWISE: Direction[] = [
   "right",
@@ -58,6 +58,14 @@ const SQUASH: Keyframe[] = [
   { transform: "scale(1, 1)" },
 ];
 
+const BOB: Keyframe[] = [
+  { transform: "translateY(0) rotate(0deg)" },
+  { transform: "translateY(-3px) rotate(-2deg)" },
+  { transform: "translateY(0) rotate(0deg)" },
+  { transform: "translateY(-2px) rotate(2deg)" },
+  { transform: "translateY(0) rotate(0deg)" },
+];
+
 function cell(index: number): CSSProperties {
   return { backgroundPosition: `${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%` };
 }
@@ -82,10 +90,14 @@ export type MascotProps = {
   className?: string;
   /** What a screen reader calls it. */
   label?: string;
+  /** An expression held from outside (for example while speaking). */
+  pose?: Reaction | null;
+  /** Bobs gently while true. */
+  talking?: boolean;
 };
 
 export function Mascot(props: MascotProps) {
-  const { directions, reactions, size = 140, className, label = "mascot" } = props;
+  const { directions, reactions, size = 140, className, label = "mascot", pose = null, talking = false } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const squashRef = useRef<HTMLSpanElement>(null);
@@ -147,6 +159,20 @@ export function Mascot(props: MascotProps) {
     };
   }, []);
 
+  useEffect(() => {
+    const el = squashRef.current;
+    if (
+      !talking ||
+      !el ||
+      typeof el.animate !== "function" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+    const animation = el.animate(BOB, { duration: 900, iterations: Infinity, easing: "linear" });
+    return () => animation.cancel();
+  }, [talking]);
+
   const boop = () => {
     timersRef.current.forEach(window.clearTimeout);
     timersRef.current = [];
@@ -176,6 +202,8 @@ export function Mascot(props: MascotProps) {
 
     squashRef.current?.animate(SQUASH, { duration: SQUASH_MS, easing: "linear" });
   };
+
+  const shown = reaction ?? pose;
 
   return (
     <button
@@ -213,15 +241,15 @@ export function Mascot(props: MascotProps) {
             ...layer,
             backgroundImage: `url(${directions})`,
             ...cell(DIRECTIONS.indexOf(direction)),
-            opacity: reaction ? 0 : 1,
+            opacity: shown ? 0 : 1,
           }}
         />
         <span
           style={{
             ...layer,
             backgroundImage: `url(${reactions})`,
-            ...cell(REACTIONS.indexOf(reaction ?? "blink")),
-            opacity: reaction ? 1 : 0,
+            ...cell(REACTIONS.indexOf(shown ?? "blink")),
+            opacity: shown ? 1 : 0,
           }}
         />
       </span>

@@ -12,7 +12,7 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CursorTrail from "./components/CursorTrail";
-import Mascot from "./components/Mascot";
+import TalkingMascot from "./components/TalkingMascot";
 import { useKonamiCode } from "./hooks/useKonamiCode";
 import { useClickCombo } from "./hooks/useClickCombo";
 import { useCommandPaletteShortcut } from "./hooks/useCommandPaletteShortcut";
@@ -82,12 +82,7 @@ function App() {
       <div className="fixed right-3 top-16 z-40 transition-transform duration-300 hover:scale-105 sm:right-6 sm:top-16 md:right-8 md:top-16">
         <div className="group relative flex flex-col items-center">
           <div className="rounded-full border border-amber/30 bg-panel/80 p-1 shadow-[0_0_20px_rgba(255,122,51,0.2)] backdrop-blur-md transition-colors hover:border-amber">
-            <Mascot
-              directions="/mascots/vannsh-directions.webp"
-              reactions="/mascots/vannsh-reactions.webp"
-              size={95}
-              label="Vannsh chibi mascot"
-            />
+            <TalkingMascot />
           </div>
         </div>
       </div>
