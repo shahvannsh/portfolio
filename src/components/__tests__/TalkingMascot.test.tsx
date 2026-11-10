@@ -1,38 +1,17 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import TalkingMascot from "../TalkingMascot";
 
-afterEach(() => {
-  vi.unstubAllGlobals();
-  sessionStorage.clear();
-});
-
 describe("TalkingMascot", () => {
-  it("renders only the mascot when speech is unsupported", () => {
-    render(<TalkingMascot />);
-    expect(screen.getByRole("button", { name: /boop the/i })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /hear my intro/i })).toBeNull();
-  });
+  it("opens the intro video and closes it again", () => {
+    const { container } = render(<TalkingMascot />);
+    expect(screen.queryByRole("dialog")).toBeNull();
 
-  it("speaks the intro in first person when played", () => {
-    const synth = {
-      speak: vi.fn(),
-      cancel: vi.fn(),
-      getVoices: () => [],
-    };
-    class FakeUtterance {
-      text: string;
-      constructor(text: string) {
-        this.text = text;
-      }
-    }
-    vi.stubGlobal("speechSynthesis", synth);
-    vi.stubGlobal("SpeechSynthesisUtterance", FakeUtterance);
+    fireEvent.click(screen.getByRole("button", { name: /watch my intro/i }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(container.querySelector("video")?.getAttribute("src")).toBe("/intro.mp4");
 
-    render(<TalkingMascot />);
-    fireEvent.click(screen.getByRole("button", { name: /hear my intro/i }));
-
-    expect(synth.speak).toHaveBeenCalledTimes(1);
-    expect(screen.getByText(/I'm Vannsh Shah/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /close video/i }));
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });
