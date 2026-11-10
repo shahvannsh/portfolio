@@ -1,10 +1,14 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { ComponentType } from "react";
-import { FileDown, Globe, Mail, MapPin, Phone, Play, UserPlus } from "lucide-react";
+import { FileDown, Globe, Mail, MapPin, MessageCircle, Phone, Play, SkipForward, UserPlus, Volume2, VolumeX } from "lucide-react";
+import AskPanel from "./AskPanel";
 import IntroVideoDialog from "./IntroVideoDialog";
 import Mascot from "./Mascot";
+import MascotEmote from "./MascotEmote";
 import { profile } from "../data/content";
-import { useMascotPerformer } from "../hooks/useMascotPerformer";
+import { TUNES } from "../data/tunes";
+import { useBackgroundMusic } from "../hooks/useBackgroundMusic";
+import { directionToward, useMascotPerformer } from "../hooks/useMascotPerformer";
 import type { Gesture } from "../hooks/useMascotPerformer";
 
 type IconProps = { className?: string };
@@ -84,22 +88,85 @@ function greetingWord() {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return "Good morning";
   if (hour >= 12 && hour < 17) return "Good afternoon";
-  return "Good evening";
+  if (hour >= 17 && hour < 23) return "Good evening";
+  return "Hello, night owl";
 }
+
+const LONG_PRESS_MS = 550;
 
 const buttonClass =
   "group flex min-h-[56px] items-center gap-3 rounded-xl border border-line bg-amber/[0.03] px-4 font-mono text-sm text-ink transition-colors hover:border-amber/60 hover:bg-amber/10 active:bg-amber/15";
 
 function CardPage() {
   const [videoOpen, setVideoOpen] = useState(false);
+  const [askOpen, setAskOpen] = useState(false);
   const [bubble, setBubble] = useState<"hi" | "thanks" | "early" | null>("hi");
   const [hello] = useState(greetingWord);
-  const { pose, look, motion, perform } = useMascotPerformer();
+  const { pose, look, motion, emote, perform, glance } = useMascotPerformer();
+  const music = useBackgroundMusic(TUNES, videoOpen);
+  const mascotBox = useRef<HTMLDivElement>(null);
+  const pressTimer = useRef(0);
 
   // On arrival the mascot says hi, winks, then glances down toward the video button.
   useEffect(() => {
-    perform("greet");
-  }, [perform]);
+    perform(hello === "Hello, night owl" ? "greetNight" : "greet");
+  }, [perform, hello]);
+
+  // Still hasn't watched the video? Nudge them toward the button now and then.
+  useEffect(() => {
+    if (bubble !== "hi") {
+      return;
+    }
+    let timer = window.setTimeout(function nudge() {
+      perform("nudge");
+      timer = window.setTimeout(nudge, 11000);
+    }, 7000);
+    return () => window.clearTimeout(timer);
+  }, [bubble, perform]);
+
+  // On touch screens the head can't follow a cursor, so it looks toward wherever you tap.
+  useEffect(() => {
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      return;
+    }
+    const onDown = (event: PointerEvent) => {
+      const box = mascotBox.current?.getBoundingClientRect();
+      if (!box) {
+        return;
+      }
+      const dx = event.clientX - (box.left + box.width / 2);
+      const dy = event.clientY - (box.top + box.height / 2);
+      if (Math.hypot(dx, dy) > 60) {
+        glance(directionToward(dx, dy));
+      }
+    };
+    window.addEventListener("pointerdown", onDown, { passive: true });
+    return () => window.removeEventListener("pointerdown", onDown);
+  }, [glance]);
+
+  // While the music plays, the mascot grooves along every few seconds.
+  useEffect(() => {
+    if (!music.playing) {
+      return;
+    }
+    const beat = window.setInterval(() => perform("groove", { ifIdle: true }), 4500);
+    return () => window.clearInterval(beat);
+  }, [music.playing, perform]);
+
+  const toggleMusic = () => {
+    if (!music.playing) {
+      perform("dance");
+    }
+    music.toggle();
+  };
+
+  const startPress = () => {
+    window.clearTimeout(pressTimer.current);
+    pressTimer.current = window.setTimeout(() => perform("tickle"), LONG_PRESS_MS);
+  };
+  const endPress = () => window.clearTimeout(pressTimer.current);
+
+  useEffect(() => () => window.clearTimeout(pressTimer.current), []);
 
   const closeVideo = (finished: boolean) => {
     setVideoOpen(false);
@@ -122,11 +189,42 @@ function CardPage() {
         <div className="relative">
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-mute">
             <span>Tap to connect</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-amber" />
+            <div className="-my-1.5 flex items-center gap-1.5 normal-case tracking-normal">
+              {music.playing && (
+                <span className="max-w-[7.5rem] truncate text-[10px] text-amber">♪ {music.track.title}</span>
+              )}
+              {music.playing && (
+                <button
+                  type="button"
+                  onClick={music.next}
+                  aria-label="Next tune"
+                  className="flex h-7 w-7 items-center justify-center rounded-full border border-amber/40 text-amber transition-colors hover:border-amber hover:bg-amber/10"
+                >
+                  <SkipForward size={13} aria-hidden="true" />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={toggleMusic}
+                aria-pressed={music.playing}
+                aria-label={music.playing ? "Pause music" : "Play music"}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-amber/40 text-amber transition-colors hover:border-amber hover:bg-amber/10"
+              >
+                {music.playing ? <Volume2 size={14} aria-hidden="true" /> : <VolumeX size={14} aria-hidden="true" />}
+              </button>
+            </div>
           </div>
 
           <header className="mt-4 flex items-center gap-4">
-            <div className="rounded-full border border-amber/30 bg-panel2/80 p-1 shadow-[0_0_20px_rgba(255,122,51,0.2)]">
+            <div
+              ref={mascotBox}
+              onPointerDown={startPress}
+              onPointerUp={endPress}
+              onPointerLeave={endPress}
+              onPointerCancel={endPress}
+              className="relative rounded-full border border-amber/30 bg-panel2/80 p-1 shadow-[0_0_20px_rgba(255,122,51,0.2)]"
+            >
+              <MascotEmote emote={emote} />
               <Mascot
                 directions="/mascots/vannsh-directions.webp"
                 reactions="/mascots/vannsh-reactions.webp"
@@ -169,17 +267,30 @@ function CardPage() {
             </p>
           )}
 
-          <button
-            type="button"
-            onClick={() => {
-              setBubble(null);
-              setVideoOpen(true);
-            }}
-            className={`${bubble === "hi" ? "mt-3 ring-2 ring-amber/40" : bubble ? "mt-3" : "mt-5"} flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15`}
-          >
-            <Play size={16} className="text-amber" aria-hidden="true" />
-            Watch my intro
-          </button>
+          <div className={`${bubble === "hi" ? "mt-3" : bubble ? "mt-3" : "mt-5"} grid grid-cols-2 gap-3`}>
+            <button
+              type="button"
+              onClick={() => {
+                setBubble(null);
+                setVideoOpen(true);
+              }}
+              className={`${bubble === "hi" ? "ring-2 ring-amber/40" : ""} flex min-h-[56px] items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-2 font-mono text-xs text-ink transition-colors hover:border-amber hover:bg-amber/15`}
+            >
+              <Play size={16} className="text-amber" aria-hidden="true" />
+              Watch my intro
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAskOpen(true);
+                perform("cheer");
+              }}
+              className="flex min-h-[56px] items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-2 font-mono text-xs text-ink transition-colors hover:border-amber hover:bg-amber/15"
+            >
+              <MessageCircle size={16} className="text-amber" aria-hidden="true" />
+              Ask me
+            </button>
+          </div>
 
           <a
             href="/contact.vcf"
@@ -214,6 +325,7 @@ function CardPage() {
           </p>
         </div>
       </main>
+      {askOpen && <AskPanel onClose={() => setAskOpen(false)} />}
       {videoOpen && (
         <IntroVideoDialog onClose={() => closeVideo(false)} onEnded={() => closeVideo(true)} />
       )}

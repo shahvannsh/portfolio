@@ -1,6 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CardPage from "../CardPage";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("CardPage", () => {
   it("shows the name and role", () => {
@@ -21,7 +25,7 @@ describe("CardPage", () => {
 
   it("greets the visitor and points to the video", () => {
     render(<CardPage />);
-    expect(screen.getByRole("status")).toHaveTextContent(/good (morning|afternoon|evening)!.*watch my intro/i);
+    expect(screen.getByRole("status")).toHaveTextContent(/(good (morning|afternoon|evening)|hello, night owl)!.*watch my intro/i);
   });
 
   it("opens the intro video", () => {
@@ -42,5 +46,35 @@ describe("CardPage", () => {
     fireEvent.ended(video as HTMLVideoElement);
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(screen.getByRole("status")).toHaveTextContent(/thanks for watching/i);
+  });
+
+  it("toggles the background music", () => {
+    const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
+    const pause = vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => undefined);
+    render(<CardPage />);
+
+    const toggle = screen.getByRole("button", { name: /play music/i });
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(toggle);
+    expect(play).toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: /pause music/i })).toHaveAttribute("aria-pressed", "true");
+
+    fireEvent.click(screen.getByRole("button", { name: /pause music/i }));
+    expect(pause).toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: /play music/i })).toBeInTheDocument();
+  });
+
+  it("switches between the three tunes", () => {
+    vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue(undefined);
+    vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => undefined);
+    vi.spyOn(HTMLMediaElement.prototype, "load").mockImplementation(() => undefined);
+    render(<CardPage />);
+
+    fireEvent.click(screen.getByRole("button", { name: /play music/i }));
+    expect(screen.getByText(/builder/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /next tune/i }));
+    expect(screen.getByText(/pune evenings/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /next tune/i }));
+    expect(screen.getByText(/neural drift/i)).toBeInTheDocument();
   });
 });

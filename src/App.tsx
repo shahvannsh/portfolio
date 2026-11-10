@@ -13,6 +13,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CursorTrail from "./components/CursorTrail";
 import TalkingMascot from "./components/TalkingMascot";
+import AskLauncher from "./components/AskLauncher";
 import { useKonamiCode } from "./hooks/useKonamiCode";
 import { useClickCombo } from "./hooks/useClickCombo";
 import { useCommandPaletteShortcut } from "./hooks/useCommandPaletteShortcut";
@@ -98,6 +99,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <AskLauncher />
       {eggEverOpened && (
         <Suspense fallback={null}>
           <EasterEggOverlay

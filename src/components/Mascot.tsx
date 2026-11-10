@@ -67,7 +67,7 @@ const BOB: Keyframe[] = [
 ];
 
 export type Motion = {
-  type: "hop" | "hop2" | "nod" | "tilt" | "shake" | "wiggle" | "sway" | "spin";
+  type: "hop" | "hop2" | "duck" | "nod" | "tilt" | "shake" | "wiggle" | "sway" | "spin";
   id: number;
 };
 
@@ -90,6 +90,16 @@ const MOTIONS: Record<Motion["type"], { frames: Keyframe[]; duration: number }> 
       { transform: "translateY(0) rotate(0deg)", offset: 0.5 },
       { transform: "translateY(5px) rotate(1deg)", offset: 0.75 },
       { transform: "translateY(0) rotate(0deg)" },
+    ],
+  },
+  duck: {
+    duration: 1500,
+    frames: [
+      { transform: "translateY(0) scale(1)", opacity: 1 },
+      { transform: "translateY(46px) scale(0.9)", opacity: 0, offset: 0.2 },
+      { transform: "translateY(46px) scale(0.9)", opacity: 0, offset: 0.65 },
+      { transform: "translateY(-10px) scale(1.04)", opacity: 1, offset: 0.85 },
+      { transform: "translateY(0) scale(1)", opacity: 1 },
     ],
   },
   hop2: {

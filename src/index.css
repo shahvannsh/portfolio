@@ -100,3 +100,40 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Floating emotes that rise from the mascot (hearts, sparkles, zzz ...). */
+@keyframes mascot-emote-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scale(1.15);
+  }
+}
+
+@keyframes mascot-emote-fade {
+  0%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.mascot-emote {
+  display: inline-block;
+  opacity: 0;
+  animation: mascot-emote-rise 1.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-emote {
+    animation-name: mascot-emote-fade;
+  }
+}
