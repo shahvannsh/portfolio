@@ -1,8 +1,9 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import type { ComponentType } from "react";
 import { FileDown, Globe, Mail, MapPin, Phone, Play, UserPlus } from "lucide-react";
 import IntroVideoDialog from "./IntroVideoDialog";
 import Mascot from "./Mascot";
+import type { Reaction } from "./Mascot";
 import { profile } from "../data/content";
 
 type IconProps = { className?: string };
@@ -81,6 +82,18 @@ const buttonClass =
 
 function CardPage() {
   const [videoOpen, setVideoOpen] = useState(false);
+  const [hint, setHint] = useState(true);
+  const [pose, setPose] = useState<Reaction | null>("delighted");
+
+  // The mascot greets the visitor on arrival: happy, then a wink, then back to idle.
+  useEffect(() => {
+    const wink = window.setTimeout(() => setPose("wink"), 1400);
+    const idle = window.setTimeout(() => setPose(null), 2500);
+    return () => {
+      window.clearTimeout(wink);
+      window.clearTimeout(idle);
+    };
+  }, []);
 
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-void px-4 py-6 text-ink">
@@ -107,6 +120,8 @@ function CardPage() {
                 reactions="/mascots/vannsh-reactions.webp"
                 size={92}
                 label="Vannsh chibi mascot"
+                pose={pose}
+                talking={pose !== null}
               />
             </div>
             <div className="min-w-0">
@@ -118,10 +133,26 @@ function CardPage() {
             </div>
           </header>
 
+          {hint && (
+            <p
+              role="status"
+              className="relative mt-4 rounded-xl border border-amber/40 bg-panel px-3 py-2 font-mono text-xs leading-snug text-ink shadow-[0_0_14px_rgba(255,122,51,0.2)]"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute -top-1.5 left-12 h-3 w-3 rotate-45 border-l border-t border-amber/40 bg-panel"
+              />
+              Hi! 👋 I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
+            </p>
+          )}
+
           <button
             type="button"
-            onClick={() => setVideoOpen(true)}
-            className="mt-5 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15"
+            onClick={() => {
+              setHint(false);
+              setVideoOpen(true);
+            }}
+            className={`${hint ? "mt-3 ring-2 ring-amber/40" : "mt-5"} flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15`}
           >
             <Play size={16} className="text-amber" aria-hidden="true" />
             Watch my intro

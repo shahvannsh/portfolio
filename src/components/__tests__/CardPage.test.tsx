@@ -19,9 +19,15 @@ describe("CardPage", () => {
     expect(href(/resume/i)).toBe("/Vannsh-Shah-Resume.pdf");
   });
 
+  it("greets the visitor and points to the video", () => {
+    render(<CardPage />);
+    expect(screen.getByRole("status")).toHaveTextContent(/hi!.*watch my intro/i);
+  });
+
   it("opens the intro video", () => {
     render(<CardPage />);
     fireEvent.click(screen.getByRole("button", { name: /watch my intro/i }));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.queryByRole("status")).toBeNull();
   });
 });
