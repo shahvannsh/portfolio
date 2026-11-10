@@ -21,7 +21,7 @@ describe("CardPage", () => {
 
   it("greets the visitor and points to the video", () => {
     render(<CardPage />);
-    expect(screen.getByRole("status")).toHaveTextContent(/hi!.*watch my intro/i);
+    expect(screen.getByRole("status")).toHaveTextContent(/good (morning|afternoon|evening)!.*watch my intro/i);
   });
 
   it("opens the intro video", () => {
@@ -29,5 +29,18 @@ describe("CardPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /watch my intro/i }));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.queryByRole("status")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: /close video/i }));
+    expect(screen.getByRole("status")).toHaveTextContent(/no worries/i);
+  });
+
+  it("celebrates when the video finishes", () => {
+    const { container } = render(<CardPage />);
+    fireEvent.click(screen.getByRole("button", { name: /watch my intro/i }));
+    const video = container.querySelector("video");
+    expect(video).not.toBeNull();
+    fireEvent.ended(video as HTMLVideoElement);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(screen.getByRole("status")).toHaveTextContent(/thanks for watching/i);
   });
 });

@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { useDialog } from "../hooks/useDialog";
 
-export default function IntroVideoDialog({ onClose }: { onClose: () => void }) {
+export default function IntroVideoDialog({ onClose, onEnded }: { onClose: () => void; onEnded?: () => void }) {
   const closeRef = useDialog<HTMLButtonElement>(true, onClose);
 
   return (
@@ -32,6 +32,7 @@ export default function IntroVideoDialog({ onClose }: { onClose: () => void }) {
           controls
           autoPlay
           playsInline
+          onEnded={onEnded}
           preload="metadata"
         />
       </div>

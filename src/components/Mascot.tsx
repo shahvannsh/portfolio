@@ -25,7 +25,7 @@ const REACTIONS = [
   "delighted",
 ] as const;
 
-type Direction = (typeof DIRECTIONS)[number];
+export type Direction = (typeof DIRECTIONS)[number];
 export type Reaction = (typeof REACTIONS)[number];
 
 const CLOCKWISE: Direction[] = [
@@ -66,6 +66,93 @@ const BOB: Keyframe[] = [
   { transform: "translateY(0) rotate(0deg)" },
 ];
 
+export type Motion = {
+  type: "hop" | "hop2" | "nod" | "tilt" | "shake" | "wiggle" | "sway" | "spin";
+  id: number;
+};
+
+const MOTIONS: Record<Motion["type"], { frames: Keyframe[]; duration: number }> = {
+  hop: {
+    duration: 600,
+    frames: [
+      { transform: "translateY(0) scale(1, 1)" },
+      { transform: "translateY(0) scale(1.08, 0.9)", offset: 0.15 },
+      { transform: "translateY(-16px) scale(0.96, 1.06)", offset: 0.5 },
+      { transform: "translateY(0) scale(1.05, 0.94)", offset: 0.8 },
+      { transform: "translateY(0) scale(1, 1)" },
+    ],
+  },
+  nod: {
+    duration: 700,
+    frames: [
+      { transform: "translateY(0) rotate(0deg)" },
+      { transform: "translateY(6px) rotate(2deg)", offset: 0.25 },
+      { transform: "translateY(0) rotate(0deg)", offset: 0.5 },
+      { transform: "translateY(5px) rotate(1deg)", offset: 0.75 },
+      { transform: "translateY(0) rotate(0deg)" },
+    ],
+  },
+  hop2: {
+    duration: 1000,
+    frames: [
+      { transform: "translateY(0) scale(1, 1)" },
+      { transform: "translateY(-14px) scale(0.97, 1.05)", offset: 0.2 },
+      { transform: "translateY(0) scale(1.05, 0.94)", offset: 0.4 },
+      { transform: "translateY(-18px) scale(0.96, 1.07)", offset: 0.65 },
+      { transform: "translateY(0) scale(1.05, 0.94)", offset: 0.85 },
+      { transform: "translateY(0) scale(1, 1)" },
+    ],
+  },
+  shake: {
+    duration: 520,
+    frames: [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(-7deg)", offset: 0.2 },
+      { transform: "rotate(7deg)", offset: 0.45 },
+      { transform: "rotate(-5deg)", offset: 0.7 },
+      { transform: "rotate(4deg)", offset: 0.88 },
+      { transform: "rotate(0deg)" },
+    ],
+  },
+  wiggle: {
+    duration: 600,
+    frames: [
+      { transform: "scale(1) rotate(0deg)" },
+      { transform: "scale(1.06) rotate(-4deg)", offset: 0.25 },
+      { transform: "scale(1.06) rotate(4deg)", offset: 0.5 },
+      { transform: "scale(1.04) rotate(-3deg)", offset: 0.75 },
+      { transform: "scale(1) rotate(0deg)" },
+    ],
+  },
+  sway: {
+    duration: 1300,
+    frames: [
+      { transform: "translateX(0) rotate(0deg)" },
+      { transform: "translateX(-9px) rotate(-5deg)", offset: 0.25 },
+      { transform: "translateX(9px) rotate(5deg)", offset: 0.5 },
+      { transform: "translateX(-9px) rotate(-5deg)", offset: 0.75 },
+      { transform: "translateX(0) rotate(0deg)" },
+    ],
+  },
+  spin: {
+    duration: 750,
+    frames: [
+      { transform: "rotate(0deg) scale(1)" },
+      { transform: "rotate(180deg) scale(1.08)", offset: 0.5 },
+      { transform: "rotate(360deg) scale(1)" },
+    ],
+  },
+  tilt: {
+    duration: 1000,
+    frames: [
+      { transform: "rotate(0deg)" },
+      { transform: "rotate(-9deg)", offset: 0.3 },
+      { transform: "rotate(-9deg)", offset: 0.7 },
+      { transform: "rotate(0deg)" },
+    ],
+  },
+};
+
 function cell(index: number): CSSProperties {
   return { backgroundPosition: `${(index % 3) * 50}% ${Math.floor(index / 3) * 50}%` };
 }
@@ -94,10 +181,14 @@ export type MascotProps = {
   pose?: Reaction | null;
   /** Bobs gently while true. */
   talking?: boolean;
+  /** A head direction held from outside; wins over the cursor-following look. */
+  look?: Direction | null;
+  /** Plays a one-off movement each time `id` changes. */
+  motion?: Motion | null;
 };
 
 export function Mascot(props: MascotProps) {
-  const { directions, reactions, size = 140, className, label = "mascot", pose = null, talking = false } = props;
+  const { directions, reactions, size = 140, className, label = "mascot", pose = null, talking = false, look = null, motion = null } = props;
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const squashRef = useRef<HTMLSpanElement>(null);
@@ -173,6 +264,22 @@ export function Mascot(props: MascotProps) {
     return () => animation.cancel();
   }, [talking]);
 
+  const motionId = motion?.id;
+  const motionType = motion?.type;
+  useEffect(() => {
+    const el = squashRef.current;
+    if (
+      !motionType ||
+      !el ||
+      typeof el.animate !== "function" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+    const { frames, duration } = MOTIONS[motionType];
+    el.animate(frames, { duration, easing: "ease-in-out" });
+  }, [motionId, motionType]);
+
   const boop = () => {
     timersRef.current.forEach(window.clearTimeout);
     timersRef.current = [];
@@ -204,6 +311,7 @@ export function Mascot(props: MascotProps) {
   };
 
   const shown = reaction ?? pose;
+  const facing = look ?? direction;
 
   return (
     <button
@@ -240,7 +348,7 @@ export function Mascot(props: MascotProps) {
           style={{
             ...layer,
             backgroundImage: `url(${directions})`,
-            ...cell(DIRECTIONS.indexOf(direction)),
+            ...cell(DIRECTIONS.indexOf(facing)),
             opacity: shown ? 0 : 1,
           }}
         />

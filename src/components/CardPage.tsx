@@ -3,8 +3,9 @@ import type { ComponentType } from "react";
 import { FileDown, Globe, Mail, MapPin, Phone, Play, UserPlus } from "lucide-react";
 import IntroVideoDialog from "./IntroVideoDialog";
 import Mascot from "./Mascot";
-import type { Reaction } from "./Mascot";
 import { profile } from "../data/content";
+import { useMascotPerformer } from "../hooks/useMascotPerformer";
+import type { Gesture } from "../hooks/useMascotPerformer";
 
 type IconProps = { className?: string };
 type CardLink = {
@@ -13,6 +14,7 @@ type CardLink = {
   href: string;
   external?: boolean;
   download?: string;
+  gesture: Gesture;
 };
 
 const svgProps = {
@@ -62,38 +64,48 @@ function InstagramIcon({ className }: IconProps) {
 }
 
 const links: CardLink[] = [
-  { icon: Phone, label: "Call", href: profile.phoneHref },
-  { icon: Mail, label: "Email", href: `mailto:${profile.email}` },
-  { icon: WhatsAppIcon, label: "WhatsApp", href: profile.whatsappUrl, external: true },
-  { icon: LinkedInIcon, label: "LinkedIn", href: profile.linkedinUrl, external: true },
-  { icon: GitHubIcon, label: "GitHub", href: profile.githubUrl, external: true },
-  { icon: InstagramIcon, label: "Instagram", href: profile.instagramUrl, external: true },
-  { icon: Globe, label: "Portfolio", href: profile.siteUrl, external: true },
+  { icon: Phone, label: "Call", href: profile.phoneHref, gesture: "cheer" },
+  { icon: Mail, label: "Email", href: `mailto:${profile.email}`, gesture: "wink" },
+  { icon: WhatsAppIcon, label: "WhatsApp", href: profile.whatsappUrl, external: true, gesture: "wow" },
+  { icon: LinkedInIcon, label: "LinkedIn", href: profile.linkedinUrl, external: true, gesture: "cheer" },
+  { icon: GitHubIcon, label: "GitHub", href: profile.githubUrl, external: true, gesture: "geek" },
+  { icon: InstagramIcon, label: "Instagram", href: profile.instagramUrl, external: true, gesture: "love" },
+  { icon: Globe, label: "Portfolio", href: profile.siteUrl, external: true, gesture: "wow" },
   {
     icon: FileDown,
     label: "Resume",
     href: "/Vannsh-Shah-Resume.pdf",
     download: "Vannsh-Shah-Resume.pdf",
+    gesture: "sparkle",
   },
 ];
+
+function greetingWord() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return "Good morning";
+  if (hour >= 12 && hour < 17) return "Good afternoon";
+  return "Good evening";
+}
 
 const buttonClass =
   "group flex min-h-[56px] items-center gap-3 rounded-xl border border-line bg-amber/[0.03] px-4 font-mono text-sm text-ink transition-colors hover:border-amber/60 hover:bg-amber/10 active:bg-amber/15";
 
 function CardPage() {
   const [videoOpen, setVideoOpen] = useState(false);
-  const [hint, setHint] = useState(true);
-  const [pose, setPose] = useState<Reaction | null>("delighted");
+  const [bubble, setBubble] = useState<"hi" | "thanks" | "early" | null>("hi");
+  const [hello] = useState(greetingWord);
+  const { pose, look, motion, perform } = useMascotPerformer();
 
-  // The mascot greets the visitor on arrival: happy, then a wink, then back to idle.
+  // On arrival the mascot says hi, winks, then glances down toward the video button.
   useEffect(() => {
-    const wink = window.setTimeout(() => setPose("wink"), 1400);
-    const idle = window.setTimeout(() => setPose(null), 2500);
-    return () => {
-      window.clearTimeout(wink);
-      window.clearTimeout(idle);
-    };
-  }, []);
+    perform("greet");
+  }, [perform]);
+
+  const closeVideo = (finished: boolean) => {
+    setVideoOpen(false);
+    setBubble(finished ? "thanks" : "early");
+    perform(finished ? "celebrate" : "shrug");
+  };
 
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-void px-4 py-6 text-ink">
@@ -121,7 +133,8 @@ function CardPage() {
                 size={92}
                 label="Vannsh chibi mascot"
                 pose={pose}
-                talking={pose !== null}
+                look={look}
+                motion={motion}
               />
             </div>
             <div className="min-w-0">
@@ -133,7 +146,7 @@ function CardPage() {
             </div>
           </header>
 
-          {hint && (
+          {bubble && (
             <p
               role="status"
               className="relative mt-4 rounded-xl border border-amber/40 bg-panel px-3 py-2 font-mono text-xs leading-snug text-ink shadow-[0_0_14px_rgba(255,122,51,0.2)]"
@@ -142,17 +155,27 @@ function CardPage() {
                 aria-hidden="true"
                 className="absolute -top-1.5 left-12 h-3 w-3 rotate-45 border-l border-t border-amber/40 bg-panel"
               />
-              Hi! 👋 I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
+              {bubble === "hi" && (
+                <>
+                  {hello}! 👋 I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
+                </>
+              )}
+              {bubble === "early" && <>No worries! 😊 You can watch my intro anytime.</>}
+              {bubble === "thanks" && (
+                <>
+                  Thanks for watching! 😊 Tap <strong className="text-amber">Save Contact</strong> to keep my number.
+                </>
+              )}
             </p>
           )}
 
           <button
             type="button"
             onClick={() => {
-              setHint(false);
+              setBubble(null);
               setVideoOpen(true);
             }}
-            className={`${hint ? "mt-3 ring-2 ring-amber/40" : "mt-5"} flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15`}
+            className={`${bubble === "hi" ? "mt-3 ring-2 ring-amber/40" : bubble ? "mt-3" : "mt-5"} flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15`}
           >
             <Play size={16} className="text-amber" aria-hidden="true" />
             Watch my intro
@@ -161,6 +184,7 @@ function CardPage() {
           <a
             href="/contact.vcf"
             download="Vannsh-Shah.vcf"
+            onClick={() => perform("celebrate")}
             className="mt-3 flex min-h-[60px] items-center justify-center gap-2 rounded-xl bg-amber px-4 font-mono text-sm font-semibold uppercase tracking-widest text-void transition-opacity hover:opacity-90 active:opacity-80"
           >
             <UserPlus size={18} aria-hidden="true" />
@@ -168,11 +192,12 @@ function CardPage() {
           </a>
 
           <div className="mt-3 grid grid-cols-2 gap-3">
-            {links.map(({ icon: Icon, label, href, external, download }) => (
+            {links.map(({ icon: Icon, label, href, external, download, gesture }) => (
               <a
                 key={label}
                 href={href}
                 download={download}
+                onClick={() => perform(gesture)}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
                 className={buttonClass}
@@ -189,7 +214,9 @@ function CardPage() {
           </p>
         </div>
       </main>
-      {videoOpen && <IntroVideoDialog onClose={() => setVideoOpen(false)} />}
+      {videoOpen && (
+        <IntroVideoDialog onClose={() => closeVideo(false)} onEnded={() => closeVideo(true)} />
+      )}
     </div>
   );
 }
