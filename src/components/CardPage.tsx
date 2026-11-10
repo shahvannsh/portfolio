@@ -1,6 +1,7 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { ComponentType } from "react";
-import { FileDown, Globe, Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { FileDown, Globe, Mail, MapPin, Phone, Play, UserPlus } from "lucide-react";
+import IntroVideoDialog from "./IntroVideoDialog";
 import Mascot from "./Mascot";
 import { profile } from "../data/content";
 
@@ -79,6 +80,8 @@ const buttonClass =
   "group flex min-h-[56px] items-center gap-3 rounded-xl border border-line bg-amber/[0.03] px-4 font-mono text-sm text-ink transition-colors hover:border-amber/60 hover:bg-amber/10 active:bg-amber/15";
 
 function CardPage() {
+  const [videoOpen, setVideoOpen] = useState(false);
+
   return (
     <div className="flex min-h-[100dvh] items-center justify-center bg-void px-4 py-6 text-ink">
       <main className="relative w-full max-w-md overflow-hidden rounded-2xl border border-line bg-panel p-5 shadow-[0_0_40px_rgba(255,122,51,0.08)]">
@@ -115,10 +118,19 @@ function CardPage() {
             </div>
           </header>
 
+          <button
+            type="button"
+            onClick={() => setVideoOpen(true)}
+            className="mt-5 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-4 font-mono text-sm text-ink transition-colors hover:border-amber hover:bg-amber/15"
+          >
+            <Play size={16} className="text-amber" aria-hidden="true" />
+            Watch my intro
+          </button>
+
           <a
             href="/contact.vcf"
             download="Vannsh-Shah.vcf"
-            className="mt-5 flex min-h-[60px] items-center justify-center gap-2 rounded-xl bg-amber px-4 font-mono text-sm font-semibold uppercase tracking-widest text-void transition-opacity hover:opacity-90 active:opacity-80"
+            className="mt-3 flex min-h-[60px] items-center justify-center gap-2 rounded-xl bg-amber px-4 font-mono text-sm font-semibold uppercase tracking-widest text-void transition-opacity hover:opacity-90 active:opacity-80"
           >
             <UserPlus size={18} aria-hidden="true" />
             Save Contact
@@ -146,6 +158,7 @@ function CardPage() {
           </p>
         </div>
       </main>
+      {videoOpen && <IntroVideoDialog onClose={() => setVideoOpen(false)} />}
     </div>
   );
 }

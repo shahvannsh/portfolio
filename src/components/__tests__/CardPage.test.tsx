@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import CardPage from "../CardPage";
 
 describe("CardPage", () => {
@@ -17,5 +17,11 @@ describe("CardPage", () => {
     expect(href(/whatsapp/i)).toBe("https://wa.me/918668995892");
     expect(href(/instagram/i)).toBe("https://instagram.com/vannsh_shah_2006");
     expect(href(/resume/i)).toBe("/Vannsh-Shah-Resume.pdf");
+  });
+
+  it("opens the intro video", () => {
+    render(<CardPage />);
+    fireEvent.click(screen.getByRole("button", { name: /watch my intro/i }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });

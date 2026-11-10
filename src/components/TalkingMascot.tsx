@@ -1,45 +1,7 @@
 import { useState } from "react";
-import { Play, X } from "lucide-react";
+import { Play } from "lucide-react";
 import Mascot from "./Mascot";
-import { useDialog } from "../hooks/useDialog";
-
-function IntroVideoDialog({ onClose }: { onClose: () => void }) {
-  const closeRef = useDialog<HTMLButtonElement>(true, onClose);
-
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Vannsh's video introduction"
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-3xl overflow-hidden rounded-xl border border-amber/40 bg-black shadow-[0_0_40px_rgba(255,122,51,0.25)]"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={onClose}
-          aria-label="Close video"
-          className="absolute right-2 top-2 z-10 rounded-full border border-amber/40 bg-black/70 p-1.5 text-ink transition-colors hover:border-amber hover:text-amber"
-        >
-          <X size={16} aria-hidden="true" />
-        </button>
-        <video
-          className="block aspect-video w-full"
-          src="/intro.mp4"
-          poster="/intro-poster.jpg"
-          controls
-          autoPlay
-          playsInline
-          preload="metadata"
-        />
-      </div>
-    </div>
-  );
-}
+import IntroVideoDialog from "./IntroVideoDialog";
 
 function TalkingMascot() {
   const [open, setOpen] = useState(false);
