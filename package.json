@@ -13,7 +13,12 @@
     "preview": "vite preview",
     "test": "vitest run",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "export-knowledge": "node --experimental-strip-types scripts/export-knowledge.ts",
+    "resume": "python3 scripts/make_resume.py",
+    "assets": "python3 scripts/make_assets.py",
+    "fonts": "node scripts/self-host-fonts.mjs",
+    "verify": "node scripts/verify-deploy.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

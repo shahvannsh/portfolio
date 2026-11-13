@@ -63,7 +63,7 @@ function containsRun(haystack: string[], needle: string[]) {
 // with a fact about Vannsh just because they share a keyword. They need to be about him.
 const OWNER = /\b(you|your|yours|yourself|vannsh|he|his|him)\b/;
 const EXPLAINER =
-  /^(what is|what are|what's|whats|who is|who are|who's|explain|define|how to|how do|how does|how is|how are|why is|why are|why do|why does|meaning of|difference between)\b/;
+  /^(what is|what are|what's|whats|who is|who are|who's|who won|who wins|who will win|who is winning|explain|define|how to|how do|how does|how is|how are|why is|why are|why do|why does|meaning of|difference between)\b/;
 const OFF_TOPIC = /\b(advice|recommend|suggest|translate|joke|poem|story|news|stock|lyrics|tips|tutorial|best way)\b/;
 const NEEDS_OWNER = new Set([
   "skills", "skills-ai", "skills-db", "skills-prog", "certifications", "location", "spoken", "passions",
@@ -87,7 +87,7 @@ export function ask(question: string): Reply {
     return reply("greeting", "Hi there! 👋 What would you like to know about my career, projects or skills?", STARTER_QUESTIONS.slice(0, 4));
   }
   if (short && /\b(thanks|thank you|thx|ty|awesome|great|cool|nice)\b/.test(normalized)) {
-    return reply("thanks", "You're welcome! Ask me anything else about my work, or say hi on LinkedIn.", FALLBACK_SUGGESTIONS, true, contactLinks.slice(1, 2));
+    return reply("thanks", "You're welcome! Ask me anything else about my work, or message me on WhatsApp.", FALLBACK_SUGGESTIONS, true, contactLinks.slice(0, 1));
   }
   if (/\b(bye|goodbye|see you|cya)\b/.test(normalized)) {
     return reply("bye", "Bye for now! Thanks for stopping by. 👋", FALLBACK_SUGGESTIONS);

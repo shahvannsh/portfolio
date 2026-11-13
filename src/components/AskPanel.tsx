@@ -4,13 +4,38 @@ import { Send, X } from "lucide-react";
 import Mascot from "./Mascot";
 import type { Reaction } from "./Mascot";
 import { ask, STARTER_QUESTIONS, WELCOME } from "../lib/ask";
+import type { Reply } from "../lib/ask";
 import type { Link } from "../data/knowledge";
+import { safeHref } from "../lib/safeUrl";
 import { useDialog } from "../hooks/useDialog";
 
 type Message = { id: number; from: "user" | "bot"; text: string; links?: Link[] };
 
 const chip =
   "shrink-0 whitespace-nowrap rounded-full border border-amber/40 bg-amber/5 px-3 py-1.5 font-mono text-[11px] text-ink transition-colors hover:border-amber hover:bg-amber/15";
+
+/** Optional AI fallback (see api/chat.js). Returns null when it's off, fails, or refuses. */
+async function askAi(question: string): Promise<string | null> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 10000);
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      return null;
+    }
+    const data: { answer?: unknown; refused?: unknown } = await response.json();
+    return typeof data.answer === "string" && !data.refused ? data.answer : null;
+  } catch {
+    return null;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
 
 /** A small Q&A chat that answers only from the portfolio and resume. */
 function AskPanel({ onClose }: { onClose: () => void }) {
@@ -46,20 +71,33 @@ function AskPanel({ onClose }: { onClose: () => void }) {
     setThinking(true);
 
     const delay = 350 + Math.min(500, question.length * 8);
-    timers.current.push(
-      window.setTimeout(() => {
-        const answer = ask(question);
-        nextId.current += 1;
-        setMessages((prev) => [
-          ...prev,
-          { id: nextId.current, from: "bot", text: answer.text, links: answer.links },
-        ]);
-        setChips(answer.suggestions);
-        setThinking(false);
-        setPose(answer.known ? "delighted" : "bashful");
-        timers.current.push(window.setTimeout(() => setPose(null), 1500));
-      }, delay),
-    );
+    const started = Date.now();
+
+    const finish = (answer: Reply) => {
+      nextId.current += 1;
+      setMessages((prev) => [
+        ...prev,
+        { id: nextId.current, from: "bot", text: answer.text, links: answer.links },
+      ]);
+      setChips(answer.suggestions);
+      setThinking(false);
+      setPose(answer.known ? "delighted" : "bashful");
+      timers.current.push(window.setTimeout(() => setPose(null), 1500));
+    };
+
+    const respond = async () => {
+      let answer = ask(question);
+      // The built-in answers come first. Only when they don't know is the optional AI endpoint tried.
+      if (!answer.known && import.meta.env.VITE_AI_CHAT === "true") {
+        const text = await askAi(question);
+        if (text) {
+          answer = { ...answer, text, known: true, links: undefined };
+        }
+      }
+      const wait = Math.max(0, delay - (Date.now() - started));
+      timers.current.push(window.setTimeout(() => finish(answer), wait));
+    };
+    void respond();
   };
 
   const submit = (event: FormEvent) => {
@@ -114,7 +152,7 @@ function AskPanel({ onClose }: { onClose: () => void }) {
                 {m.links.map((link) => (
                   <a
                     key={link.label}
-                    href={link.href}
+                    href={safeHref(link.href)}
                     download={link.download}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
                     rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}

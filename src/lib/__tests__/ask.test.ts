@@ -77,14 +77,35 @@ describe("ask", () => {
     expect(idOf("How many hackathons have you attended?")).toBe("hackathon");
   });
 
+  it("helps people book a call", () => {
+    const reply = ask("Can I schedule a call with you?");
+    expect(reply.id).toBe("book");
+    expect(reply.links?.map((l) => l.label)).toEqual(["WhatsApp me", "Email me"]);
+  });
+
   it("handles small talk and identity honestly", () => {
     expect(idOf("hi")).toBe("greeting");
     expect(idOf("thanks!")).toBe("thanks");
     expect(ask("Are you a real person?").text).toMatch(/automated/i);
   });
 
-  it("never invents grades or availability", () => {
+  it("never invents grades or pay", () => {
     expect(ask("What is your CGPA?").text).toMatch(/don't list grades/i);
-    expect(ask("Are you open to work?").text).toMatch(/don't say anything about availability/i);
+    expect(idOf("What is the salary you expect?")).toBe("salary");
+  });
+
+  it("shares availability, goals and the new details", () => {
+    expect(ask("Are you open to work?").text).toMatch(/open to internships, jobs and freelance/i);
+    expect(idOf("What are your career goals?")).toBe("goals");
+    expect(idOf("What are you learning next?")).toBe("goals");
+    expect(ask("How many students have you taught?").text).toMatch(/120\+ students/);
+    expect(ask("Did you win any hackathons?").text).toMatch(/Smart India Hackathon/);
+    expect(idOf("What sports do you play?")).toBe("passions");
+    expect(ask("What are your hobbies?").text).toMatch(/badminton/i);
+    expect(ask("Tell me about DocParserEnvs").text).toMatch(/Ollama Qwen/);
+    expect(ask("How can I contact you?").text).toMatch(/WhatsApp.*or email/);
+    expect(ask("Tell me about Chotu").links?.[0].href).toBe("https://github.com/shahvannsh/Chotu");
+    expect(ask("Tell me about DocParserEnvs").links?.[0].href).toBe("https://github.com/shahvannsh/RL-Documentation-Parser");
+    expect(ask("When did your Nova Techset internship end?").text).toMatch(/15 Aug 2026/);
   });
 });

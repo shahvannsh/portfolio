@@ -1,15 +1,21 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { ComponentType } from "react";
-import { FileDown, Globe, Mail, MapPin, MessageCircle, Phone, Play, SkipForward, UserPlus, Volume2, VolumeX } from "lucide-react";
+import { FileDown, Globe, Mail, MapPin, MessageCircle, Phone, Play, Send, Share2, SkipForward, UserPlus, Volume2, VolumeX } from "lucide-react";
 import AskPanel from "./AskPanel";
 import IntroVideoDialog from "./IntroVideoDialog";
+import LeadForm from "./LeadForm";
 import Mascot from "./Mascot";
 import MascotEmote from "./MascotEmote";
+import ShareCard from "./ShareCard";
 import { profile } from "../data/content";
+import { festivalOn } from "../data/festivals";
+import { greetingSequence } from "../data/greetings";
 import { TUNES } from "../data/tunes";
+import { track } from "../lib/analytics";
 import { useBackgroundMusic } from "../hooks/useBackgroundMusic";
 import { directionToward, useMascotPerformer } from "../hooks/useMascotPerformer";
 import type { Gesture } from "../hooks/useMascotPerformer";
+import { speechAvailable, useSpokenGreeting } from "../hooks/useSpokenGreeting";
 
 type IconProps = { className?: string };
 type CardLink = {
@@ -93,6 +99,7 @@ function greetingWord() {
 }
 
 const LONG_PRESS_MS = 550;
+const GREETING_MS = 2400;
 
 const buttonClass =
   "group flex min-h-[56px] items-center gap-3 rounded-xl border border-line bg-amber/[0.03] px-4 font-mono text-sm text-ink transition-colors hover:border-amber/60 hover:bg-amber/10 active:bg-amber/15";
@@ -100,8 +107,14 @@ const buttonClass =
 function CardPage() {
   const [videoOpen, setVideoOpen] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [leadOpen, setLeadOpen] = useState(false);
+  const [speakOn, setSpeakOn] = useState(false);
   const [bubble, setBubble] = useState<"hi" | "thanks" | "early" | null>("hi");
   const [hello] = useState(greetingWord);
+  const [festival] = useState(() => festivalOn(new Date()));
+  const [greetStep, setGreetStep] = useState(0);
+  const sequence = useMemo(() => greetingSequence(festival, hello), [festival, hello]);
   const { pose, look, motion, emote, perform, glance } = useMascotPerformer();
   const music = useBackgroundMusic(TUNES, videoOpen);
   const mascotBox = useRef<HTMLDivElement>(null);
@@ -109,8 +122,8 @@ function CardPage() {
 
   // On arrival the mascot says hi, winks, then glances down toward the video button.
   useEffect(() => {
-    perform(hello === "Hello, night owl" ? "greetNight" : "greet");
-  }, [perform, hello]);
+    perform(festival ? "celebrate" : hello === "Hello, night owl" ? "greetNight" : "greet");
+  }, [perform, hello, festival]);
 
   // Still hasn't watched the video? Nudge them toward the button now and then.
   useEffect(() => {
@@ -167,6 +180,18 @@ function CardPage() {
   const endPress = () => window.clearTimeout(pressTimer.current);
 
   useEffect(() => () => window.clearTimeout(pressTimer.current), []);
+
+  // While the hint is showing, the mascot greets in each language on the resume, with a new phrase each round.
+  useEffect(() => {
+    if (bubble !== "hi") {
+      return;
+    }
+    const rotate = window.setInterval(() => setGreetStep((i) => (i + 1) % sequence.length), GREETING_MS);
+    return () => window.clearInterval(rotate);
+  }, [bubble, sequence.length]);
+
+  const greeting = sequence[greetStep % sequence.length];
+  useSpokenGreeting(speakOn && bubble === "hi" && !videoOpen && !askOpen && !shareOpen && !leadOpen, greeting);
 
   const closeVideo = (finished: boolean) => {
     setVideoOpen(false);
@@ -255,7 +280,31 @@ function CardPage() {
               />
               {bubble === "hi" && (
                 <>
-                  {hello}! 👋 I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
+                  <span className="sr-only">{festival ? `Happy ${festival.name}!` : `${hello}!`}</span>
+                  <span aria-hidden="true" className="mb-1 flex items-baseline gap-2">
+                    <span lang={greeting.lang} className="text-base font-semibold text-ink">
+                      {greeting.text}{/[?？!！]$/.test(greeting.text) ? "" : "!"} {festival && greetStep < festival.phrases.length ? "🎉" : "👋"}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-mute">
+                      {greeting.lang === "en" ? greeting.language : `${greeting.language} · ${greeting.meaning}`}
+                    </span>
+                  </span>
+                  {speechAvailable() && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSpeakOn((on) => !on);
+                        track("speak_greetings");
+                      }}
+                      aria-pressed={speakOn}
+                      aria-label="Speak greetings aloud"
+                      className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-amber/40 px-2 py-0.5 font-mono text-[10px] text-amber transition-colors hover:bg-amber/15"
+                    >
+                      {speakOn ? <Volume2 size={11} aria-hidden="true" /> : <VolumeX size={11} aria-hidden="true" />}
+                      {speakOn ? "On" : "Hear it"}
+                    </button>
+                  )}
+                  I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
                 </>
               )}
               {bubble === "early" && <>No worries! 😊 You can watch my intro anytime.</>}
@@ -273,6 +322,7 @@ function CardPage() {
               onClick={() => {
                 setBubble(null);
                 setVideoOpen(true);
+                track("watch_intro");
               }}
               className={`${bubble === "hi" ? "ring-2 ring-amber/40" : ""} flex min-h-[56px] items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-2 font-mono text-xs text-ink transition-colors hover:border-amber hover:bg-amber/15`}
             >
@@ -284,6 +334,7 @@ function CardPage() {
               onClick={() => {
                 setAskOpen(true);
                 perform("cheer");
+                track("open_chat");
               }}
               className="flex min-h-[56px] items-center justify-center gap-2 rounded-xl border border-amber/50 bg-amber/10 px-2 font-mono text-xs text-ink transition-colors hover:border-amber hover:bg-amber/15"
             >
@@ -295,7 +346,10 @@ function CardPage() {
           <a
             href="/contact.vcf"
             download="Vannsh-Shah.vcf"
-            onClick={() => perform("celebrate")}
+            onClick={() => {
+              perform("celebrate");
+              track("save_contact");
+            }}
             className="mt-3 flex min-h-[60px] items-center justify-center gap-2 rounded-xl bg-amber px-4 font-mono text-sm font-semibold uppercase tracking-widest text-void transition-opacity hover:opacity-90 active:opacity-80"
           >
             <UserPlus size={18} aria-hidden="true" />
@@ -308,7 +362,10 @@ function CardPage() {
                 key={label}
                 href={href}
                 download={download}
-                onClick={() => perform(gesture)}
+                onClick={() => {
+                  perform(gesture);
+                  track("card_link", { link: label });
+                }}
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
                 className={buttonClass}
@@ -319,6 +376,28 @@ function CardPage() {
             ))}
           </div>
 
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setShareOpen(true)}
+              className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-line px-2 font-mono text-xs text-ink transition-colors hover:border-amber/60 hover:bg-amber/10"
+            >
+              <Share2 size={14} className="text-amber" aria-hidden="true" />
+              Share my card
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setLeadOpen(true);
+                track("open_lead_form");
+              }}
+              className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-line px-2 font-mono text-xs text-ink transition-colors hover:border-amber/60 hover:bg-amber/10"
+            >
+              <Send size={14} className="text-amber" aria-hidden="true" />
+              Leave your details
+            </button>
+          </div>
+
           <p className="mt-4 flex items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-mute">
             <MapPin size={11} aria-hidden="true" />
             {profile.location}
@@ -326,6 +405,8 @@ function CardPage() {
         </div>
       </main>
       {askOpen && <AskPanel onClose={() => setAskOpen(false)} />}
+      {shareOpen && <ShareCard onClose={() => setShareOpen(false)} />}
+      {leadOpen && <LeadForm onClose={() => setLeadOpen(false)} onSent={() => perform("celebrate")} />}
       {videoOpen && (
         <IntroVideoDialog onClose={() => closeVideo(false)} onEnded={() => closeVideo(true)} />
       )}

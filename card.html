@@ -1,17 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          var theme =
-            stored ||
-            (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-          if (theme === "light") document.documentElement.classList.add("light");
-        } catch (e) {}
-      })();
-    </script>
+    <script src="/theme-init.js"></script>
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,6 +27,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Vannsh Shah | Contact Card" />
     <meta name="twitter:image" content="https://portfolio-mu-ruby-37.vercel.app/og-image.png" />
+    <!-- Vercel Web Analytics (privacy-friendly page views; enable it in the Vercel dashboard). -->
+    <script src="/va-init.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <div id="root"></div>

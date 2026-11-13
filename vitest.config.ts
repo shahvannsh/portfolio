@@ -8,5 +8,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test-setup.ts"],
+    // Only this project's own tests (not old copies such as portfolio/ or .kilo/).
+    include: ["src/**/*.test.{ts,tsx}", "tests/**/*.test.ts"],
   },
 });

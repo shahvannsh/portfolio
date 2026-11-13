@@ -1,0 +1,197 @@
+{
+  "name": "VANNSH SHAH",
+  "headline": "Computer Science Engineer | AI/ML & Full-Stack Development",
+  "location": "Pune, Maharashtra, India",
+  "phone": "+91 86689 95892",
+  "email": "shahvannsh@gmail.com",
+  "links": [
+    {
+      "label": "linkedin.com/in/vannsh-shah-67271a309",
+      "url": "https://linkedin.com/in/vannsh-shah-67271a309"
+    },
+    {
+      "label": "github.com/shahvannsh",
+      "url": "https://github.com/shahvannsh"
+    },
+    {
+      "label": "portfolio-mu-ruby-37.vercel.app",
+      "url": "https://portfolio-mu-ruby-37.vercel.app/"
+    }
+  ],
+  "summary": "Third-year Computer Science Engineering student aiming for a career in ML and AI, with hands-on AI/ML internship experience, 16 completed certifications across AWS, Google Cloud, and OpenAI, and a track record of shipping full-stack projects independently and in teams. Combines a strong C++/Python foundation with practical product thinking, developed through building CareerConnecting (a job-matching app) and Chotu (a multi-model AI study assistant). Open to internships, jobs, and freelance work.",
+  "experience": [
+    {
+      "title": "AI-ML Intern — Nova Techset Ltd.",
+      "date": "Jun 2026 – 15 Aug 2026",
+      "meta": "Full-time · On-site · Pune District, Maharashtra, India",
+      "bullets": [
+        "Worked hands-on with Python and Deep Learning on applied AI/ML projects in a production environment.",
+        "Built and queried PostgreSQL-backed data workflows supporting AI features."
+      ]
+    },
+    {
+      "title": "Campus Ambassador — E-Cell, IIT Bombay",
+      "date": "Jun 2026 – Nov 2026",
+      "meta": "Internship · Remote",
+      "bullets": [
+        "Represented E-Cell IIT Bombay on campus, promoting entrepreneurship and innovation programs (e.g. Illuminate) to fellow students.",
+        "Selected as part of a national student network fostering leadership and startup awareness among engineering students."
+      ]
+    }
+  ],
+  "leadership": [
+    {
+      "title": "Main Coordinator, Dishayam 2026 — DES Pune University Innovation & Startup Association (DISA)",
+      "date": "Mar 2026",
+      "bullets": [
+        "Led planning and execution of a Proof-of-Concept showcase and a startup Ideathon at NAV-Unmesh 2026, coordinating a 7-person team.",
+        "Volunteered on the marketing team, promoting the tech fest across colleges both online and offline."
+      ]
+    },
+    {
+      "title": "Technical Coordinator, Euraka 2026 — DES Pune University",
+      "date": "27 Aug 2026",
+      "bullets": [
+        "Coordinated with judges — inviting and hosting them — for the event.",
+        "Managed the entire technical execution of the event and assigned work across the team.",
+        "Worked through multiple late-night and full-day sessions to deliver the event."
+      ]
+    },
+    {
+      "title": "Hackathon Participant — \"VibraRelief Duo\" — Navonmesh 2026 · 24-hour National Hackathon, MES IMCC Pune",
+      "date": "2026",
+      "bullets": [
+        "Prototyped a non-invasive wearable for migraine relief using targeted vibration therapy and gentle electronic stimulation, as part of Team ShiftHappens404.",
+        "Attended 30+ hackathons; cleared round 1 of the Smart India Hackathon (SIH)."
+      ]
+    },
+    {
+      "title": "Student Mentor — Python & Canva Workshops — DES New English Medium School, with DES Pune University",
+      "date": "Ongoing",
+      "bullets": [
+        "Taught Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals to 9th-grade students — 120+ students across 40+ hours of volunteer sessions, and continuing."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "B.Tech, Computer Science Engineering — DES Pune University",
+      "date": "Aug 2024 – Aug 2028"
+    },
+    {
+      "title": "12th Grade — City International School",
+      "date": "2022 – 2024"
+    },
+    {
+      "title": "10th Grade — Sankriti School",
+      "date": "2018 – 2022"
+    }
+  ],
+  "projects": [
+    {
+      "title": "CareerConnecting (JobSwipe) — C++, QML",
+      "date": "Jan 2025 – Present",
+      "bullets": [
+        "Built a swipe-based job-matching app for students and jobseekers with smart job suggestions, resume upload, XP tracking, and AI-guided career paths."
+      ]
+    },
+    {
+      "title": "Chotu — Multi-Model AI Academic Assistant — Python, Flask/FastAPI, AI agents",
+      "date": "Mar 2026 – Present",
+      "bullets": [
+        "Built a multi-model personal study assistant with focus sessions, distraction tracking, an analytics dashboard, and a resume-building tool.",
+        {
+          "text": "Code: ",
+          "label": "github.com/shahvannsh/Chotu",
+          "url": "https://github.com/shahvannsh/Chotu"
+        }
+      ]
+    },
+    {
+      "title": "DocParserEnvs — Python, Gymnasium (Reinforcement Learning), Ollama (Qwen)",
+      "date": "Feb 2026 – Apr 2026",
+      "bullets": [
+        "Built an RL environment where an agent learns to navigate a mock file system to answer technical documentation queries, simulating a developer's search workflow, powered by a local Ollama Qwen model.",
+        {
+          "text": "Code: ",
+          "label": "github.com/shahvannsh/RL-Documentation-Parser",
+          "url": "https://github.com/shahvannsh/RL-Documentation-Parser"
+        }
+      ]
+    },
+    {
+      "title": "Mini-Project Series — Python, JavaScript, REST APIs",
+      "date": "2026",
+      "bullets": [
+        "Real-Time Weather Dashboard — desktop GUI app using the OpenWeatherMap API with JSON parsing and error handling.",
+        "Interactive Pokédex — fetches and renders Pokémon data from PokeAPI with search by name/ID.",
+        "GUI Stopwatch & Alarm Clock — Python desktop utilities with real-time state management and audio triggers.",
+        "Real-Time Digital Clock — JavaScript app using DOM manipulation and interval-based time sync."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "label": "Programming Languages",
+      "text": "C, C++, Python, Java, JavaScript, HTML, CSS, SQL"
+    },
+    {
+      "label": "Databases",
+      "text": "MySQL, PostgreSQL, MongoDB, Microsoft Access"
+    },
+    {
+      "label": "AI/ML & Data",
+      "text": "Pandas, NumPy, Matplotlib, OpenCV, Anaconda, Generative AI tooling"
+    },
+    {
+      "label": "Tools & Platforms",
+      "text": "Git, Visual Studio, Replit, IntelliJ IDEA, Gamma, Linux, Windows, MacOS"
+    },
+    {
+      "label": "Competitive Coding",
+      "text": "HackerRank, LeetCode, CodeChef"
+    },
+    {
+      "label": "Currently Learning",
+      "text": "Big Data, Large Language Models (LLMs)"
+    },
+    {
+      "label": "Spoken Languages",
+      "text": "English, Hindi, Marathi, Gujarati, German, Japanese, Sanskrit"
+    }
+  ],
+  "certifications": {
+    "count": 16,
+    "items": [
+      {
+        "label": "AWS",
+        "text": "AWS Artificial Intelligence Practitioner Learning Plan; Machine Learning Learning Plan; No-code Machine Learning and Generative AI on AWS; Amazon Q Developer Getting Started"
+      },
+      {
+        "label": "AWS",
+        "text": "Generative AI Learning Plan for EU Governments; Data Engineering for Generative AI Applications; Fundamentals of Generative AI; Generative AI Atlas — Fundamentals and Core Concepts"
+      },
+      {
+        "label": "AWS",
+        "text": "AI-Driven Development Lifecycle Knowledge Badge Assessment; Building Production-Ready AI Agents with Amazon Bedrock AgentCore; Generative AI Atlas — Production and Adoption Frameworks"
+      },
+      {
+        "label": "AWS",
+        "text": "Public Sector Generative AI Learning Plan, including Generative AI for Executives and Building Generative AI Applications Using Amazon Bedrock"
+      },
+      {
+        "label": "Google Cloud",
+        "text": "Introduction to Generative AI; Introduction to Responsible AI"
+      },
+      {
+        "label": "OpenAI",
+        "text": "Accelerate Your Learning with ChatGPT"
+      },
+      {
+        "label": "SoloLearn",
+        "text": "Introduction to C"
+      }
+    ],
+    "inProgress": "AWS modules — Foundations of Prompt Engineering, Amazon SageMaker JumpStart Foundations, Customizing and Evaluating LLMs Using SageMaker JumpStart"
+  }
+}

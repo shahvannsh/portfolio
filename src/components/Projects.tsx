@@ -1,6 +1,6 @@
 import { memo, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { Code, ExternalLink } from "lucide-react";
 import FadeIn from "./FadeIn";
 import { projects } from "../data/content";
 import chotuScreenshot from "../assets/chotu-screenshot.webp";
@@ -109,6 +109,9 @@ function Card({
               <p className="mb-5 max-w-2xl text-base leading-relaxed text-ink/85 md:text-lg">
                 {project.description}
               </p>
+              {project.result && (
+                <p className="mb-5 max-w-2xl font-mono text-xs text-amber">▸ {project.result}</p>
+              )}
               <div className="flex flex-wrap items-center gap-2">
                 {project.stack.map((s) => (
                   <span
@@ -127,6 +130,17 @@ function Card({
                   >
                     View Live
                     <ExternalLink size={11} />
+                  </a>
+                )}
+                {"repoUrl" in project && project.repoUrl && (
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 rounded-full border border-amber/40 bg-amber/5 px-3 py-1 font-mono text-xs text-amber transition-colors hover:bg-amber/15"
+                  >
+                    View Code
+                    <Code size={11} />
                   </a>
                 )}
               </div>

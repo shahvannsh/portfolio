@@ -22,6 +22,7 @@ function cardRoute(): Plugin {
 export default defineConfig({
   plugins: [react(), cardRoute()],
   build: {
+    sourcemap: false, // never ship source maps to visitors
     rollupOptions: {
       input: { main: path("./index.html"), card: path("./card.html") },
     },

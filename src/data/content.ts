@@ -27,7 +27,7 @@ export const modules = [
 export const journey = [
   {
     tag: "LOG_01",
-    date: "Jun 2026 \u2013 Aug 2026",
+    date: "Jun 2026 \u2013 15 Aug 2026",
     title: "AI-ML Intern",
     org: "Nova Techset Ltd.",
     meta: "Full-time \u00b7 On-site \u00b7 Pune",
@@ -87,7 +87,7 @@ export const journey = [
     org: "DES New English Medium School",
     meta: "with DES Pune University",
     points: [
-      "Taught Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals to 9th-grade students across multiple volunteer sessions.",
+      "Taught Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals to 9th-grade students \u2014 120+ students across 40+ hours of volunteer sessions, and counting.",
     ],
   },
 ];
@@ -103,6 +103,7 @@ export const projects = [
       "A swipe-based job-matching platform for students and jobseekers \u2014 smart job suggestions, resume upload, XP tracking, and AI-guided career paths, with an off-white and gold interface.",
     stack: ["C++", "QML", "UI/UX"],
     visual: "swipe" as const,
+    result: "",
     liveUrl: "https://career-connect-221yt836g-shahvannsh-9258s-projects.vercel.app/",
   },
   {
@@ -112,9 +113,11 @@ export const projects = [
     category: "AI Assistant \u00b7 Python",
     period: "Mar 2026 \u2013 Present",
     description:
-      "An Iron-Man-inspired personal AI assistant with focus sessions, distraction tracking, an analytics dashboard, roast-mode accountability, and a resume-building tool.",
-    stack: ["Python", "Flask/FastAPI"],
+      "A multi-model, Iron-Man-inspired personal AI assistant with focus sessions, distraction tracking, an analytics dashboard, roast-mode accountability, and a resume-building tool.",
+    stack: ["Python", "Flask/FastAPI", "Multi-model"],
     visual: "screenshot" as const,
+    result: "",
+    repoUrl: "https://github.com/shahvannsh/Chotu",
   },
   {
     id: "03",
@@ -123,9 +126,11 @@ export const projects = [
     category: "Reinforcement Learning \u00b7 Python",
     period: "Feb 2026 \u2013 Apr 2026",
     description:
-      "A Gymnasium RL environment where an agent learns to navigate a mock file system to answer technical documentation queries \u2014 simulating a developer's search workflow.",
-    stack: ["Python", "Gymnasium", "RL"],
+      "A Gymnasium RL environment where an agent learns to navigate a mock file system to answer technical documentation queries \u2014 simulating a developer's search workflow, powered by a local Ollama Qwen model.",
+    stack: ["Python", "Gymnasium", "RL", "Ollama Qwen"],
     visual: "grid" as const,
+    result: "",
+    repoUrl: "https://github.com/shahvannsh/RL-Documentation-Parser",
   },
 ];
 
@@ -176,6 +181,13 @@ export const passions = [
   "Design & Inspirational Models",
   "Sustainability in Tech",
   "Upcoming Trends in Computer Science",
+];
+
+export const hobbies = [
+  "Badminton and cricket every week",
+  "Drawing",
+  "Reading a little",
+  "Trying anything I haven't experienced before",
 ];
 
 export const certifications = [

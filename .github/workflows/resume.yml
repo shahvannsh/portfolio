@@ -1,0 +1,43 @@
+name: Rebuild resume
+
+# Regenerates public/Vannsh-Shah-Resume.pdf whenever its source data changes,
+# so the PDF, the site and the chatbot are always built from the same facts.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/data/resume.json"
+      - "scripts/make_resume.py"
+      - "src/assets/avatar.jpg"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  resume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PDF tools
+        run: pip install reportlab pillow
+
+      - name: Build the resume
+        run: python3 scripts/make_resume.py
+
+      - name: Commit the new PDF
+        run: |
+          if git diff --quiet -- public/Vannsh-Shah-Resume.pdf; then
+            echo "Resume unchanged."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/Vannsh-Shah-Resume.pdf
+            git commit -m "chore: rebuild resume PDF from resume.json"
+            git push
+          fi

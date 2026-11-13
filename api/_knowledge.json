@@ -1,0 +1,132 @@
+{
+  "facts": [
+    {
+      "topic": "goals",
+      "answer": "I'm aiming for a career in machine learning and AI. Next, I'm diving deeper into big data and large language models (LLMs), building on my AI-ML internship and projects like Chotu and DocParserEnvs."
+    },
+    {
+      "topic": "current",
+      "answer": "Right now I'm building Chotu (my multi-model AI academic assistant) and CareerConnecting (a swipe-based job-matching app), and I'm still volunteering as a Python and Canva mentor for school students. I'm also learning big data and LLMs, and working through AWS modules on prompt engineering and SageMaker JumpStart. My Nova Techset internship (Jun to 15 Aug 2026) and E-Cell IIT Bombay campus ambassadorship (Jun to Nov 2026) have wrapped up."
+    },
+    {
+      "topic": "internship",
+      "answer": "From Jun to 15 Aug 2026 I was an AI-ML Intern at Nova Techset Ltd. (full-time, on-site in Pune). I worked hands-on with Python and deep learning on applied AI/ML projects in a production environment, and built and queried PostgreSQL-backed data workflows that supported AI features."
+    },
+    {
+      "topic": "ambassador",
+      "answer": "From Jun to Nov 2026 I was a Campus Ambassador for E-Cell, IIT Bombay (a remote internship, now completed). I represented E-Cell on campus, promoting entrepreneurship and innovation programs like Illuminate, as part of a national student network fostering leadership and startup awareness."
+    },
+    {
+      "topic": "events",
+      "answer": "Dishayam 2026 (Mar 2026): I was Main Coordinator for the DES Pune University Innovation & Startup Association at the NAV-उन्मेष 2026 tech fest. I led a Proof-of-Concept showcase and a startup Ideathon with a 7-person team and helped promote the fest across colleges.\n\nEuraka 2026 (27 Aug 2026): as Technical Coordinator I invited and hosted the judges, managed the technical execution, and assigned work across the team, including late-night and full-day sessions."
+    },
+    {
+      "topic": "hackathon",
+      "answer": "I've attended 30+ hackathons. My highlight so far is clearing round 1 of the Smart India Hackathon (SIH); I don't have wins to list yet. At Navonmesh 2026, a 24-hour national hackathon at MES IMCC Pune, my team ShiftHappens404 built \"VibraRelief Duo\" — a non-invasive wearable prototype for migraine relief using targeted vibration therapy and gentle electronic stimulation."
+    },
+    {
+      "topic": "mentoring",
+      "answer": "It's ongoing: I volunteer as a student mentor at DES New English Medium School, together with DES Pune University. So far I've taught 120+ students across 40+ hours of sessions, covering Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals, and I'm continuing."
+    },
+    {
+      "topic": "grades",
+      "answer": "My portfolio and resume don't list grades or CGPA, so I can't share that here. You can ask me directly if you need it."
+    },
+    {
+      "topic": "education",
+      "answer": "I'm in my third year of a B.Tech in Computer Science Engineering at DES Pune University (Aug 2024 – Aug 2028). Before that I did 12th grade at City International School (2022–2024) and 10th grade at Sankriti School (2018–2022)."
+    },
+    {
+      "topic": "careerconnecting",
+      "answer": "CareerConnecting (JobSwipe) is a swipe-based job-matching platform for students and jobseekers that I've been building since Jan 2025. It has smart job suggestions, resume upload, XP tracking and AI-guided career paths, with an off-white and gold interface. It's built with C++ and QML, and there's a live demo online."
+    },
+    {
+      "topic": "chotu",
+      "answer": "Chotu is my multi-model, Iron-Man-inspired personal AI academic assistant, in progress since Mar 2026. It has focus sessions, distraction tracking, an analytics dashboard, a \"roast mode\" for accountability, and a resume-building tool. It's built with Python and Flask/FastAPI."
+    },
+    {
+      "topic": "docparser",
+      "answer": "DocParserEnvs (Feb–Apr 2026) is a Gymnasium reinforcement-learning environment where an agent learns to navigate a mock file system to answer technical documentation queries, simulating a developer's search workflow. It's written in Python and powered by a local Ollama Qwen model."
+    },
+    {
+      "topic": "miniprojects",
+      "answer": "My 2026 mini-project series (Python, JavaScript, REST APIs) includes:\n• Real-Time Weather Dashboard: a desktop GUI app using the OpenWeatherMap API with JSON parsing and error handling.\n• Interactive Pokédex: fetches and renders Pokémon data from PokeAPI, searchable by name or ID.\n• GUI Stopwatch & Alarm Clock: Python desktop utilities with real-time state and audio triggers.\n• Real-Time Digital Clock: a JavaScript app using DOM manipulation and interval-based time sync."
+    },
+    {
+      "topic": "projects",
+      "answer": "I've shipped 07 projects. The highlights:\n• CareerConnecting (JobSwipe): a swipe-based job-matching app (C++, QML)\n• Chotu: an Iron-Man-inspired AI academic assistant (Python, Flask/FastAPI)\n• DocParserEnvs: a reinforcement-learning environment for documentation search (Python, Gymnasium)\n• A mini-project series: weather dashboard, Pokédex, stopwatch/alarm clock and digital clock."
+    },
+    {
+      "topic": "skills-ai",
+      "answer": "AI/ML is my main focus.\n• Machine learning: Regression, Classification, Clustering, Random Forest, XGBoost, Neural Networks, Deep Learning, CNNs, RNNs/LSTMs, Transformers, Backpropagation, Regularization, Gymnasium\n• Computer vision: Image Augmentation, Object Detection, Image Segmentation\n• LLMs & NLP: Tokenization, Embeddings, Attention Mechanisms, Hugging Face, LangChain, LlamaIndex, Prompt Engineering, RAG, Deep Agents\n• Vector databases: Pinecone, FAISS, Chroma\nI've applied this in my Nova Techset AI-ML internship and in projects like Chotu and DocParserEnvs."
+    },
+    {
+      "topic": "skills-db",
+      "answer": "Data and databases:\n• Databases: MySQL, PostgreSQL, MongoDB, Microsoft Access\n• Vector databases: Pinecone, FAISS, Chroma\n• Data & AI libraries: Pandas, NumPy, Matplotlib, Seaborn, Plotly, OpenCV, Anaconda"
+    },
+    {
+      "topic": "skills-prog",
+      "answer": "Programming and tools:\n• Languages: C, C++, Python, Java, JavaScript, HTML, CSS, SQL, SVG\n• Frameworks & APIs: Flask, FastAPI, QML, REST APIs, GraphQL, Requests, playsound, Docker\n• Tools: Git, Visual Studio, Replit, IntelliJ IDEA, Gamma, Canva, Jupyter, Unit Testing, Linux, Windows, macOS\n• Competitive coding: HackerRank, LeetCode, CodeChef"
+    },
+    {
+      "topic": "skills",
+      "answer": "My core strengths are a solid C++ and Python foundation, applied AI/ML (deep learning, LLMs, RAG, computer vision), databases like PostgreSQL and MongoDB, and full-stack building with React, Flask and FastAPI. Ask me about any area for details."
+    },
+    {
+      "topic": "certifications",
+      "answer": "I've completed 16 certifications: AWS (AI/ML foundations, generative AI, applied and advanced AI such as building production-ready agents with Amazon Bedrock AgentCore, and public-sector generative AI), Google Cloud (Introduction to Generative AI and to Responsible AI), OpenAI (Accelerate Your Learning with ChatGPT) and SoloLearn (Introduction to C).\n\nIn progress: AWS Foundations of Prompt Engineering, Amazon SageMaker JumpStart Foundations, and Customizing and Evaluating LLMs Using SageMaker JumpStart."
+    },
+    {
+      "topic": "achievements",
+      "answer": "Some highlights beyond coursework:\n• Solar Ambassador Workshop (Energy Swaraj Foundation, Oct 2024): Built a dual-mode solar lamp; session led by Prof. Chetan Singh Solanki.\n• Industry 4.0 Visit (SSPU College, 2025): Explored AI, IoT, and automation in smart-factory environments.\n• DIPEX 2025 (Robotics & Innovation Expo, 2025): Fine-tuned a manipulator arm and ran a live robotics demo.\n• Indian Science Fest 2025 (Fergusson College, Pune, 2025): Explored AI diagnostics, quantum computing, and space-tech exhibits.\n• National Science Day (IISER Pune, Feb 2025): Met Padma Shri Arvind Gupta; discussed inclusive design-thinking projects."
+    },
+    {
+      "topic": "spoken",
+      "answer": "I speak English, Hindi, Marathi, Gujarati, German, Japanese, Sanskrit."
+    },
+    {
+      "topic": "passions",
+      "answer": "Professionally, I'm passionate about AI & Machine Learning, Full-Stack App Development, Design & Inspirational Models, Sustainability in Tech, Upcoming Trends in Computer Science. Outside of tech: badminton and cricket every week; drawing; reading a little; trying anything I haven't experienced before."
+    },
+    {
+      "topic": "location",
+      "answer": "I'm based in Pune, Maharashtra, India."
+    },
+    {
+      "topic": "resume",
+      "answer": "You can download my latest resume here. It covers my summary, experience, leadership, education, projects, skills and certifications."
+    },
+    {
+      "topic": "book",
+      "answer": "Happy to talk! Message me on WhatsApp or email with a couple of time slots that suit you, plus what you'd like to discuss, and I'll confirm."
+    },
+    {
+      "topic": "contact",
+      "answer": "The best ways to reach me are WhatsApp (+91 86689 95892) or email (shahvannsh@gmail.com). You can also find me on LinkedIn (linkedin.com/in/vannsh-shah-67271a309), GitHub (github.com/shahvannsh) and Instagram (instagram.com/vannsh_shah_2006)."
+    },
+    {
+      "topic": "salary",
+      "answer": "My portfolio and resume don't cover compensation or notice period, so please ask me directly on WhatsApp or email."
+    },
+    {
+      "topic": "availability",
+      "answer": "Yes, I'm open to internships, jobs and freelance work, and I'm especially aiming at ML and AI roles. For details like timing and location, message me on WhatsApp or email and we can talk."
+    },
+    {
+      "topic": "site",
+      "answer": "That's me as a chibi mascot! Tap \"Watch my intro\" for my video introduction, and use the speaker button to play \"Builder\", an original Indian × tech tune made for this site. I'm also a small Q&A bot: I can only answer from my portfolio and resume."
+    },
+    {
+      "topic": "career",
+      "answer": "Here's my journey so far:\n• Jun–Aug 2026: AI-ML Intern, Nova Techset Ltd.\n• Jun–Nov 2026: Campus Ambassador, E-Cell IIT Bombay\n• Mar 2026: Main Coordinator, Dishayam 2026 (DES Pune University)\n• Aug 2026: Technical Coordinator, Euraka 2026\n• 2026: Hackathon — \"VibraRelief Duo\" at Navonmesh 2026\n• Ongoing: Student mentor for Python & Canva workshops"
+    },
+    {
+      "topic": "about",
+      "answer": "I'm Vannsh Shah, a third-year B.Tech Computer Science Engineering student in Pune, Maharashtra, India. I focus on AI/ML and full-stack development, with a strong C++ and Python foundation, and I'm aiming for a career in ML and AI. I've completed an AI-ML internship at Nova Techset and built projects like Chotu, my AI study assistant, and CareerConnecting, a swipe-based job-matching app. I also hold 16 certifications across AWS, Google Cloud and OpenAI, and I'm a tech and sustainability enthusiast."
+    },
+    {
+      "topic": "stats",
+      "answer": "A few numbers: 16 certifications, 3rd year, b.tech cse, 07 projects shipped, 30+ hackathons attended."
+    }
+  ]
+}

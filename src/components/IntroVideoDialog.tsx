@@ -34,7 +34,10 @@ export default function IntroVideoDialog({ onClose, onEnded }: { onClose: () => 
           playsInline
           onEnded={onEnded}
           preload="metadata"
-        />
+        >
+          {/* Optional captions for screen readers and sound-off viewing (the video also has its own on-screen captions). */}
+          <track kind="captions" src="/intro.vtt" srcLang="en" label="English" />
+        </video>
       </div>
     </div>
   );

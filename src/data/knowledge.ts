@@ -1,4 +1,4 @@
-import { achievements, capabilities, passions, profile, spokenLanguages, stats } from "./content";
+import { achievements, capabilities, hobbies, passions, profile, spokenLanguages, stats } from "./content.ts";
 
 export type Link = { label: string; href: string; download?: string };
 
@@ -22,10 +22,10 @@ export const resumeLink: Link = {
 };
 
 export const contactLinks: Link[] = [
+  { label: "WhatsApp", href: profile.whatsappUrl },
   { label: "Email", href: `mailto:${profile.email}` },
   { label: "LinkedIn", href: profile.linkedinUrl },
   { label: "GitHub", href: profile.githubUrl },
-  { label: "WhatsApp", href: profile.whatsappUrl },
   { label: "Instagram", href: profile.instagramUrl },
 ];
 
@@ -44,17 +44,24 @@ export const STARTER_QUESTIONS = [
  */
 export const facts: Fact[] = [
   {
+    id: "goals",
+    keywords: ["goal^5", "aspiration^5", "aspire^5", "aim^4", "dream^4", "future^4", "next^3", "plan^3", "roadmap^5", "career goal^6", "want to become^6", "looking to^3", "big data^5", "bigdata^5", "what role^5", "which role^5", "what kind of role^6", "what are you looking for^6", "learn next^6", "learning next^6", "want to learn^6", "ml role^5", "ai role^5"],
+    answer:
+      "I'm aiming for a career in machine learning and AI. Next, I'm diving deeper into big data and large language models (LLMs), building on my AI-ML internship and projects like Chotu and DocParserEnvs.",
+    next: ["What are your AI/ML skills?", "What projects have you built?", "Are you open to opportunities?"],
+  },
+  {
     id: "current",
     keywords: ["currently^3", "right now^5", "working on^5", "are you building^5", "these days^4", "at the moment^5", "present^2", "latest^2", "lately^2"],
     answer:
-      "Right now I'm building Chotu (my AI academic assistant) and CareerConnecting (a swipe-based job-matching app), and I'm still volunteering as a Python and Canva mentor for school students. I'm also working through AWS modules on prompt engineering and SageMaker JumpStart. My Nova Techset internship (Jun–Aug 2026) and E-Cell IIT Bombay campus ambassadorship (Jun–Nov 2026) have wrapped up.",
+      "Right now I'm building Chotu (my multi-model AI academic assistant) and CareerConnecting (a swipe-based job-matching app), and I'm still volunteering as a Python and Canva mentor for school students. I'm also learning big data and LLMs, and working through AWS modules on prompt engineering and SageMaker JumpStart. My Nova Techset internship (Jun to 15 Aug 2026) and E-Cell IIT Bombay campus ambassadorship (Jun to Nov 2026) have wrapped up.",
     next: ["Tell me about Chotu", "What's your work experience?", "Which certifications do you have?"],
   },
   {
     id: "internship",
     keywords: ["nova^5", "techset^5", "intern^4", "aiml^3", "production^1"],
     answer:
-      "From Jun to Aug 2026 I was an AI-ML Intern at Nova Techset Ltd. (full-time, on-site in Pune). I worked hands-on with Python and deep learning on applied AI/ML projects in a production environment, and built and queried PostgreSQL-backed data workflows that supported AI features.",
+      "From Jun to 15 Aug 2026 I was an AI-ML Intern at Nova Techset Ltd. (full-time, on-site in Pune). I worked hands-on with Python and deep learning on applied AI/ML projects in a production environment, and built and queried PostgreSQL-backed data workflows that supported AI features.",
     next: ["What are your AI/ML skills?", "What's your work experience?", "What projects have you built?"],
   },
   {
@@ -73,15 +80,15 @@ export const facts: Fact[] = [
   },
   {
     id: "hackathon",
-    keywords: ["hackathon^5", "vibrarelief^5", "vibra^4", "migraine^5", "wearable^4", "shifthappens404^5", "shifthappens^5", "navonmesh^4", "imcc^4", "vibration^3", "24hour^4", "24 hour^4", "prototype^2"],
-    answer: `I've attended ${stat("Hackathons Attended")} hackathons. At Navonmesh 2026, a 24-hour national hackathon at MES IMCC Pune, my team ShiftHappens404 built "VibraRelief Duo" — a non-invasive wearable prototype for migraine relief using targeted vibration therapy and gentle electronic stimulation.`,
+    keywords: ["hackathon^5", "sih^6", "smart india^6", "win^3", "won^3", "prize^4", "placed^3", "vibrarelief^5", "vibra^4", "migraine^5", "wearable^4", "shifthappens404^5", "shifthappens^5", "navonmesh^4", "imcc^4", "vibration^3", "24hour^4", "24 hour^4", "prototype^2"],
+    answer: `I've attended ${stat("Hackathons Attended")} hackathons. My highlight so far is clearing round 1 of the Smart India Hackathon (SIH); I don't have wins to list yet. At Navonmesh 2026, a 24-hour national hackathon at MES IMCC Pune, my team ShiftHappens404 built "VibraRelief Duo" — a non-invasive wearable prototype for migraine relief using targeted vibration therapy and gentle electronic stimulation.`,
     next: ["What events have you led?", "What projects have you built?", "What are your skills?"],
   },
   {
     id: "mentoring",
     keywords: ["mentor^5", "teach^4", "taught^4", "workshop^3", "canva^4", "volunteer^4", "9th^4", "ninth^4", "des new english^5", "school students^5", "9th grade^5"],
     answer:
-      "It's ongoing: I volunteer as a student mentor at DES New English Medium School, together with DES Pune University. Across several sessions I've taught 9th-grade students Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals.",
+      "It's ongoing: I volunteer as a student mentor at DES New English Medium School, together with DES Pune University. So far I've taught 120+ students across 40+ hours of sessions, covering Python basics, matplotlib data visualization, and Gen AI/Canva fundamentals, and I'm continuing.",
     next: ["What are your skills?", "What events have you led?", "What are your passions?"],
   },
   {
@@ -108,16 +115,18 @@ export const facts: Fact[] = [
   },
   {
     id: "chotu",
-    keywords: ["chotu^6", "assistant^3", "academic^3", "ironman^4", "iron man^5", "jarvis^5", "focus^2", "roast^4", "study^2", "distraction^3", "resume builder^4"],
+    keywords: ["chotu^6", "multimodel^6", "multi model^6", "assistant^3", "academic^3", "ironman^4", "iron man^5", "jarvis^5", "focus^2", "roast^4", "study^2", "distraction^3", "resume builder^4"],
     answer:
-      "Chotu is my Iron-Man-inspired personal AI academic assistant, in progress since Mar 2026. It has focus sessions, distraction tracking, an analytics dashboard, a \"roast mode\" for accountability, and a resume-building tool. It's built with Python and Flask/FastAPI.",
+      "Chotu is my multi-model, Iron-Man-inspired personal AI academic assistant, in progress since Mar 2026. It has focus sessions, distraction tracking, an analytics dashboard, a \"roast mode\" for accountability, and a resume-building tool. It's built with Python and Flask/FastAPI.",
+    links: [{ label: "View code", href: "https://github.com/shahvannsh/Chotu" }],
     next: ["Tell me about CareerConnecting", "Tell me about DocParserEnvs", "What are your AI/ML skills?"],
   },
   {
     id: "docparser",
-    keywords: ["docparserenvs^6", "docparser^6", "reinforcement^5", "rl^4", "gymnasium^4", "environment^3", "agent^2", "documentation^3", "parser^3", "mock file system^5", "file system^4"],
+    keywords: ["docparserenvs^6", "docparser^6", "ollama^5", "qwen^5", "reinforcement^5", "rl^4", "gymnasium^4", "environment^3", "agent^2", "documentation^3", "parser^3", "mock file system^5", "file system^4"],
     answer:
-      "DocParserEnvs (Feb–Apr 2026) is a Gymnasium reinforcement-learning environment where an agent learns to navigate a mock file system to answer technical documentation queries, simulating a developer's search workflow. It's written in Python.",
+      "DocParserEnvs (Feb–Apr 2026) is a Gymnasium reinforcement-learning environment where an agent learns to navigate a mock file system to answer technical documentation queries, simulating a developer's search workflow. It's written in Python and powered by a local Ollama Qwen model.",
+    links: [{ label: "View code", href: "https://github.com/shahvannsh/RL-Documentation-Parser" }],
     next: ["Tell me about Chotu", "What are your AI/ML skills?", "What are your mini projects?"],
   },
   {
@@ -179,8 +188,8 @@ export const facts: Fact[] = [
   },
   {
     id: "passions",
-    keywords: ["passion^5", "interest^5", "hobby^5", "hobbies^5", "enjoy^3", "love^2", "free time^6", "sustainability^5", "design^2", "trend^2", "curious^2", "outside work^5", "outside of work^5"],
-    answer: `I'm passionate about ${list(passions)}. Outside of coding I'm a tech and sustainability enthusiast.`,
+    keywords: ["passion^5", "interest^5", "hobby^5", "hobbies^5", "badminton^6", "cricket^6", "drawing^6", "draw^4", "reading^3", "sport^5", "play^3", "new experience^5", "enjoy^3", "love^2", "free time^6", "sustainability^5", "design^2", "trend^2", "curious^2", "outside work^5", "outside of work^5", "for fun^5"],
+    answer: `Professionally, I'm passionate about ${list(passions)}. Outside of tech: ${hobbies.map((h) => h.charAt(0).toLowerCase() + h.slice(1)).join("; ")}.`,
     next: ["Tell me about yourself", "What projects have you built?", "Do you mentor students?"],
   },
   {
@@ -197,17 +206,35 @@ export const facts: Fact[] = [
     next: ["What's your work experience?", "Which certifications do you have?", "How can I contact you?"],
   },
   {
+    id: "book",
+    keywords: ["book a call^8", "schedule a call^8", "set up a call^8", "book^5", "schedule^5", "appointment^5", "meeting^5", "interview^5", "talk^3", "chat^2", "video call^6"],
+    answer:
+      "Happy to talk! Message me on WhatsApp or email with a couple of time slots that suit you, plus what you'd like to discuss, and I'll confirm.",
+    links: [
+      { label: "WhatsApp me", href: `${profile.whatsappUrl}?text=${encodeURIComponent("Hi Vannsh, I'd like to schedule a call. Here are some times that work for me:")}` },
+      { label: "Email me", href: `mailto:${profile.email}?subject=${encodeURIComponent("Let's schedule a call")}&body=${encodeURIComponent("Hi Vannsh,\n\nI'd like to schedule a call. These times work for me:\n")}` },
+    ],
+    next: ["Are you open to opportunities?", "Can I download your resume?", "What's your work experience?"],
+  },
+  {
     id: "contact",
     keywords: ["contact^5", "email^5", "mail^4", "phone^5", "number^3", "call^4", "reach^5", "whatsapp^5", "linkedin^5", "github^5", "instagram^5", "insta^5", "social^4", "connect^3", "message^3", "dm^3", "handle^3", "get in touch^6", "touch^3"],
-    answer: `The easiest ways to reach me:\n• Email: ${profile.email}\n• Phone / WhatsApp: ${profile.phone}\n• LinkedIn: ${profile.linkedin}\n• GitHub: ${profile.github}\n• Instagram: ${profile.instagram}`,
+    answer: `The best ways to reach me are WhatsApp (${profile.phone}) or email (${profile.email}). You can also find me on LinkedIn (${profile.linkedin}), GitHub (${profile.github}) and Instagram (${profile.instagram}).`,
     links: contactLinks,
     next: ["Can I download your resume?", "Where are you based?", "What's your work experience?"],
   },
   {
+    id: "salary",
+    keywords: ["salary^6", "ctc^6", "notice period^6", "compensation^6", "stipend^6", "expected pay^6", "pay^3"],
+    answer: "My portfolio and resume don't cover compensation or notice period, so please ask me directly on WhatsApp or email.",
+    links: contactLinks.slice(0, 2),
+    next: ["Are you open to opportunities?", "Can I download your resume?", "How can I contact you?"],
+  },
+  {
     id: "availability",
-    keywords: ["hire^5", "hiring^5", "available^5", "availability^5", "opportunity^5", "opportunities^5", "open to^6", "looking for^4", "freelance^5", "recruit^5", "join^3", "collaborate^5", "collaboration^5", "work together^6", "work with you^6", "salary^6", "ctc^6", "notice period^6", "job^2"],
+    keywords: ["hire^5", "hiring^5", "available^5", "availability^5", "opportunity^5", "opportunities^5", "open to^6", "looking for^4", "freelance^5", "recruit^5", "join^3", "collaborate^5", "collaboration^5", "work together^6", "work with you^6", "job^2"],
     answer:
-      "My portfolio and resume don't say anything about availability or compensation, so the best way to find out is to message me directly. Email or LinkedIn is the quickest.",
+      "Yes, I'm open to internships, jobs and freelance work, and I'm especially aiming at ML and AI roles. For details like timing and location, message me on WhatsApp or email and we can talk.",
     links: contactLinks.slice(0, 2),
     next: ["Can I download your resume?", "What's your work experience?", "How can I contact you?"],
   },
@@ -228,7 +255,7 @@ export const facts: Fact[] = [
   {
     id: "about",
     keywords: ["yourself^4", "introduce^4", "bio^4", "summary^4", "background^3", "about you^4", "who is vannsh^6", "vannsh^2", "describe^2", "overview^3", "introduction^3", "what do you do^6", "tell me about you^6"],
-    answer: `I'm Vannsh Shah, a third-year B.Tech Computer Science Engineering student in ${profile.location}. I focus on AI/ML and full-stack development, with a strong C++ and Python foundation. I've completed an AI-ML internship at Nova Techset and built projects like Chotu, my AI study assistant, and CareerConnecting, a swipe-based job-matching app. I also hold ${stat("Certifications")} certifications across AWS, Google Cloud and OpenAI, and I'm a tech and sustainability enthusiast.`,
+    answer: `I'm Vannsh Shah, a third-year B.Tech Computer Science Engineering student in ${profile.location}. I focus on AI/ML and full-stack development, with a strong C++ and Python foundation, and I'm aiming for a career in ML and AI. I've completed an AI-ML internship at Nova Techset and built projects like Chotu, my AI study assistant, and CareerConnecting, a swipe-based job-matching app. I also hold ${stat("Certifications")} certifications across AWS, Google Cloud and OpenAI, and I'm a tech and sustainability enthusiast.`,
     next: ["What's your work experience?", "What are your skills?", "What projects have you built?"],
   },
   {

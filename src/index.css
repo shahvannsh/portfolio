@@ -137,3 +137,14 @@ body {
     animation-name: mascot-emote-fade;
   }
 }
+
+
+/* HUD ticker (moved out of an inline <style> element so the CSP can forbid inline style elements). */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
