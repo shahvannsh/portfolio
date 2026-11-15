@@ -13,7 +13,8 @@
 
 ## 3. On Vercel
 - [ ] Turn on two-factor authentication.
-- [ ] Settings → Environment Variables: add `RESEND_API_KEY` (and `LEAD_TO` if not your Gmail). Leave the AI variables unset unless you want the AI chatbot fallback.
+- [ ] Make the message form work: follow **MESSAGES-SETUP.md** (A: email is required; B: database, C: AI ranking, D: WhatsApp, E: daily summary are optional). Then `npm run test-lead`.
+- [ ] Settings → Environment Variables: leave `VITE_AI_CHAT` unset unless you want the website chatbot to use AI.
 - [ ] Analytics → enable **Web Analytics**.
 - [ ] Firewall → add a rate-limit rule for `/api/*` (for example 10 requests/minute per IP).
 - [ ] Redeploy, then check the deployment's logs for errors.
@@ -28,6 +29,7 @@
 - [ ] Test on an Android phone and an iPhone before locking the tag.
 
 ## 6. Fill in later
+- [ ] Record the 7 "hello" greetings in your own voice: **VOICE-SETUP.md** (optional, but it makes the spoken greetings sound much better).
 - [ ] One-line **result** for each project (`result` in `src/data/content.ts`).
 - [ ] Ask a native speaker to check the Sanskrit, Marathi, Gujarati and Japanese greetings (`src/data/greetings.ts`).
 - [ ] Confirm the DocParserEnvs description (Ollama Qwen) and the Chotu description match your repos.

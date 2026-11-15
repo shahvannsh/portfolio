@@ -1,9 +1,27 @@
-// Vercel serverless function: emails Vannsh when someone leaves their details on the card page.
-// Needs the RESEND_API_KEY environment variable (https://resend.com). Optional: LEAD_TO, LEAD_FROM, ALLOWED_ORIGINS.
-// Without a key it answers 501 and the page falls back to a mailto/WhatsApp link.
+// Vercel serverless function: receives messages from the card page's "Leave your details" form.
+//
+// What happens to each message:
+//   1. Validated and cleaned (see _security.js), bots are dropped quietly.
+//   2. The triage agent ranks it (urgent / high / normal / low / spam) and summarises it (_triage.js).
+//   3. It is remembered (Upstash Redis, 90 days) so it can be tracked and summarised later.
+//   4. Delivery adapts to traffic: urgent/high messages, and messages while it's quiet, are sent at once
+//      (email, plus WhatsApp for urgent/high). When it's busy, normal/low messages wait and arrive together as one
+//      ranked digest (when enough have piled up, and at the daily cron in api/digest.js). Spam is stored, never sent.
+//
+// Env: RESEND_API_KEY (email), UPSTASH_REDIS_REST_URL/TOKEN (tracking + digests), ANTHROPIC_API_KEY (AI ranking),
+//      CALLMEBOT_APIKEY or WHATSAPP_CLOUD_TOKEN + WHATSAPP_PHONE_ID (WhatsApp), IMMEDIATE_MAX (default 3 per hour),
+//      DIGEST_BATCH (default 5), LEAD_TO, LEAD_FROM, ALLOWED_ORIGINS. See .env.example.
+import { randomUUID } from "node:crypto";
 import { clean, guard, sendJson } from "./_security.js";
+import { pipeline, redis, redisConfigured } from "./_redis.js";
+import { triage } from "./_triage.js";
+import { anyChannelConfigured, notifyLead } from "./_notify.js";
+import { sendDigest } from "./_digest.js";
 
 const EMAIL = /^[^\s@<>()[\]\\,;:"]{1,64}@[^\s@<>()[\]\\,;:"]{1,255}\.[A-Za-z]{2,}$/;
+const HOUR = 60 * 60 * 1000;
+const KEEP_SECONDS = 90 * 24 * 60 * 60;
+const number = (value, fallback) => (Number.isFinite(Number(value)) && Number(value) >= 0 ? Number(value) : fallback);
 
 export default async function handler(req, res) {
   try {
@@ -11,9 +29,9 @@ export default async function handler(req, res) {
       name: "lead",
       maxBytes: 2500,
       perIp: 4,
-      perIpWindowMs: 60 * 60 * 1000, // 4 messages per hour per visitor
+      perIpWindowMs: HOUR, // 4 messages per hour per visitor
       globalMax: 60,
-      globalWindowMs: 60 * 60 * 1000, // 60 per hour in total, so a flood can't fill the inbox
+      globalWindowMs: HOUR, // 60 per hour in total, so a flood can't fill the inbox
     });
     if (!body) return;
 
@@ -31,24 +49,55 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: "invalid" });
     }
 
-    const key = process.env.RESEND_API_KEY;
-    if (!key) {
+    const storing = redisConfigured();
+    if (!storing && !anyChannelConfigured()) {
       return sendJson(res, 501, { error: "not_configured" });
     }
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      signal: AbortSignal.timeout(10000),
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: process.env.LEAD_FROM || "Portfolio <onboarding@resend.dev>",
-        to: [process.env.LEAD_TO || "shahvannsh@gmail.com"],
-        reply_to: email,
-        subject: `New contact from your portfolio: ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\n\n${message || "(no message)"}\n\nSent from the /card page. Treat links and attachments from strangers with care.`,
-      }),
-    });
-    return sendJson(res, response.ok ? 200 : 502, response.ok ? { ok: true } : { error: "send_failed" });
+    const lead = { id: randomUUID(), at: Date.now(), name, email, message };
+    lead.triage = await triage(lead);
+    const spam = lead.triage.priority === "spam";
+
+    // Remember it, and learn how busy the last hour has been.
+    let stored = false;
+    let busyCount = 0;
+    if (storing) {
+      try {
+        const commands = [
+          ["SET", `lead:${lead.id}`, JSON.stringify(lead), "EX", KEEP_SECONDS],
+          ["ZADD", "leads:all", lead.at, lead.id],
+          ["ZREMRANGEBYSCORE", "leads:all", 0, lead.at - 7 * 24 * HOUR],
+          ["ZCOUNT", "leads:all", lead.at - HOUR, "+inf"],
+        ];
+        if (!spam) commands.push(["RPUSH", "leads:pending", lead.id]);
+        busyCount = Number((await pipeline(commands))[3]);
+        stored = true;
+      } catch {
+        stored = false; // a storage outage must never lose a message: fall through to direct email
+      }
+    }
+
+    if (spam) {
+      return sendJson(res, 200, { ok: true }); // kept for your records, never sent
+    }
+
+    const quiet = !stored || busyCount <= number(process.env.IMMEDIATE_MAX, 3);
+    const important = ["urgent", "high"].includes(lead.triage.priority);
+    let delivered = false;
+
+    if (quiet || important) {
+      delivered = await notifyLead(lead);
+      if (delivered && stored) await redis("LREM", "leads:pending", 0, lead.id).catch(() => undefined);
+    } else {
+      // Busy: wait for a digest. Send it now if enough have piled up.
+      const waiting = Number(await redis("LLEN", "leads:pending").catch(() => 0));
+      if (waiting >= number(process.env.DIGEST_BATCH, 5)) delivered = (await sendDigest().catch(() => 0)) > 0;
+    }
+
+    if (delivered || stored) {
+      return sendJson(res, 200, { ok: true });
+    }
+    return sendJson(res, 502, { error: "send_failed" });
   } catch {
     return sendJson(res, 500, { error: "server_error" }); // never leak details
   }

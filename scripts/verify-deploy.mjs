@@ -42,6 +42,8 @@ check("API rejects other websites", (await post({ company: "verify-script" }, { 
 check("API rejects non-JSON", (await get("/api/lead", { method: "POST", headers: { "Content-Type": "text/plain", Origin: origin }, body: "x" })).status === 415);
 check("API rejects huge bodies", (await post({ message: "x".repeat(6000) })).status === 413);
 check("API drops bots quietly", (await post({ name: "verify", email: "verify@example.com", company: "verify-script", elapsed: 9000 })).status === 200);
+const cron = await get("/api/digest");
+check("daily-digest endpoint refuses strangers", [401, 501].includes(cron.status), `status ${cron.status}`);
 check("API never caches", (lead.headers.get("cache-control") ?? "").includes("no-store"));
 
 if (!skipHttp && base.startsWith("https://")) {
