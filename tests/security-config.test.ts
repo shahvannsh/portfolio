@@ -143,6 +143,18 @@ describe("environment and server code", () => {
     expect(read(".gitignore")).toMatch(/^\.env$/m);
   });
 
+  it("never logs from any server file", () => {
+    for (const file of walk("api", (f) => f.endsWith(".js"))) {
+      expect(read(file), file).not.toMatch(/console\./);
+    }
+  });
+
+  it("protects the cron endpoint with a secret", () => {
+    const source = read("api/digest.js");
+    expect(source).toMatch(/CRON_SECRET/);
+    expect(source).toMatch(/timingSafeEqual/);
+  });
+
   it("makes every endpoint use the shared guard and never log", () => {
     for (const file of ["api/lead.js", "api/chat.js"]) {
       const source = read(file);

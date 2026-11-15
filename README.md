@@ -67,7 +67,7 @@ Write this link to the NFC tag (the UTM tags let Vercel Web Analytics count taps
 | Feature | What to do |
 | --- | --- |
 | Tap analytics | Enable **Web Analytics** for the project in Vercel (the script is already in `index.html` and `card.html`). Custom events need a Vercel plan that supports them; page views and UTM sources work on the free plan. |
-| "Leave your details" form | Add `RESEND_API_KEY` (and optionally `LEAD_TO`) in Vercel → Settings → Environment Variables. Without it the form offers an email/WhatsApp fallback. Code: `api/lead.js`. |
+| "Leave your details" form | Follow **[MESSAGES-SETUP.md](MESSAGES-SETUP.md)**: email, tracking, an AI agent that ranks messages by priority, WhatsApp alerts, and traffic-based digests. Check it with `npm run test-lead`. Code: `api/lead.js`, `api/_triage.js`, `api/_digest.js`, `api/digest.js`. |
 | Optional AI chatbot fallback | Add `ANTHROPIC_API_KEY` and set `VITE_AI_CHAT=true`, then redeploy. The built-in chatbot answers first; the AI is only asked when it doesn't know, and it can only use the facts in `api/_knowledge.json`. Code: `api/chat.js`. |
 | After editing `knowledge.ts` or `content.ts` | `npm run export-knowledge` (refreshes `api/_knowledge.json`). |
 | Resume | Edit `src/data/resume.json`, then `npm run resume` (a GitHub Action does this on push). A test fails if the resume, site and chatbot disagree. |
@@ -75,6 +75,7 @@ Write this link to the NFC tag (the UTM tags let Vercel Web Analytics count taps
 | Project results | Fill the empty `result` field of a project in `content.ts` (for example `"Cuts study-planning time from 30 to 5 minutes"`); it appears on the project card. |
 | Self-host fonts (optional) | `npm run fonts` downloads the Google fonts into `public/fonts/` and removes Google from the CSP. Needs internet once. |
 | Check the live site | `npm run verify` tests the deployed headers, files and API protections. |
+| Spoken greetings voice | Picks the most natural device voice per language, or plays recordings of your own voice: see [VOICE-SETUP.md](VOICE-SETUP.md). `npm run greetings:list` then `npm run greetings`. |
 | Festival greetings | Dates live in `src/data/festivals.ts` (2026–2027 listed); add new years there. |
 
 Copy `.env.example` for the full list of environment variables. Never commit real keys.

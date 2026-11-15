@@ -1,6 +1,7 @@
 import { afterEach, describe, it, expect, vi } from "vitest";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import CardPage from "../CardPage";
+import { resetManifestCache } from "../../hooks/useSpokenGreeting";
 
 // The real date could be a festival (which changes the first greeting), so keep tests deterministic.
 vi.mock("../../data/festivals", () => ({ festivalOn: () => null }));
@@ -114,16 +115,25 @@ describe("CardPage", () => {
     expect(screen.getByText(/neural drift/i)).toBeInTheDocument();
   });
 
-  it("speaks the greetings aloud when asked, in a voice for each language", () => {
+  it("speaks the greetings aloud when asked, in a voice for each language", async () => {
     vi.useFakeTimers();
+    resetManifestCache();
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }));
     const speak = vi.fn();
     const hindiVoice = { lang: "hi-IN", name: "Hindi" };
-    vi.stubGlobal("speechSynthesis", { speak, cancel: vi.fn(), getVoices: () => [hindiVoice] });
+    vi.stubGlobal("speechSynthesis", {
+      speak,
+      cancel: vi.fn(),
+      getVoices: () => [hindiVoice],
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    });
     class FakeUtterance {
       text: string;
       voice: unknown;
       lang = "";
       rate = 1;
+      pitch = 1;
       constructor(text: string) {
         this.text = text;
       }
@@ -132,15 +142,16 @@ describe("CardPage", () => {
     render(<CardPage />);
 
     fireEvent.click(screen.getByRole("button", { name: /speak greetings aloud/i }));
-    act(() => {
+    await act(async () => {
       vi.advanceTimersByTime(300);
     });
-    expect(speak).not.toHaveBeenCalled(); // English has no voice on this fake device, so it stays silent
+    expect(speak).not.toHaveBeenCalled(); // English has no voice on this fake device
+    expect(screen.getByRole("status")).toHaveTextContent(/no english voice on this device/i);
 
-    act(() => {
+    await act(async () => {
       vi.advanceTimersByTime(2400);
     });
-    act(() => {
+    await act(async () => {
       vi.advanceTimersByTime(300);
     });
     expect(speak).toHaveBeenCalledTimes(1); // Hindi greeting

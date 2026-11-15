@@ -18,7 +18,10 @@
     "resume": "python3 scripts/make_resume.py",
     "assets": "python3 scripts/make_assets.py",
     "fonts": "node scripts/self-host-fonts.mjs",
-    "verify": "node scripts/verify-deploy.mjs"
+    "verify": "node scripts/verify-deploy.mjs",
+    "test-lead": "node scripts/test-lead.mjs",
+    "greetings": "python3 scripts/prepare-greetings.py",
+    "greetings:list": "python3 scripts/prepare-greetings.py --list"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

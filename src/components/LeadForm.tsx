@@ -69,7 +69,7 @@ function LeadForm({ onClose, onSent }: { onClose: () => void; onSent?: () => voi
           <X size={14} aria-hidden="true" />
         </button>
         <p className="font-display text-sm font-extrabold uppercase tracking-tight text-ink">Leave your details</p>
-        <p className="mt-1 font-mono text-[11px] text-mute">I'll get back to you. Your details go only to me.</p>
+        <p className="mt-1 font-mono text-[11px] text-mute">I'll get back to you. Your message goes to me; an AI assistant helps me sort and summarise messages, and they're kept for up to 90 days.</p>
 
         {status === "sent" ? (
           <p role="status" className="mt-5 rounded-xl border border-amber/40 bg-amber/10 p-4 font-body text-sm text-ink">

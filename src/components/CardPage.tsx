@@ -191,7 +191,7 @@ function CardPage() {
   }, [bubble, sequence.length]);
 
   const greeting = sequence[greetStep % sequence.length];
-  useSpokenGreeting(speakOn && bubble === "hi" && !videoOpen && !askOpen && !shareOpen && !leadOpen, greeting);
+  const { missing: noVoice } = useSpokenGreeting(speakOn && bubble === "hi" && !videoOpen && !askOpen && !shareOpen && !leadOpen, greeting);
 
   const closeVideo = (finished: boolean) => {
     setVideoOpen(false);
@@ -303,6 +303,9 @@ function CardPage() {
                       {speakOn ? <Volume2 size={11} aria-hidden="true" /> : <VolumeX size={11} aria-hidden="true" />}
                       {speakOn ? "On" : "Hear it"}
                     </button>
+                  )}
+                  {speakOn && noVoice && (
+                    <span className="mb-1 block font-mono text-[10px] text-mute">No {greeting.language} voice on this device, so it stays quiet.</span>
                   )}
                   I'm Vannsh. Tap <strong className="text-amber">Watch my intro</strong> to hear my story.
                 </>

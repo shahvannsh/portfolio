@@ -30,3 +30,5 @@ dist-ssr
 *.pem
 *.key
 .vercel
+# Raw voice recordings stay on your computer; only the processed clips in public/greetings/ are committed
+recordings/

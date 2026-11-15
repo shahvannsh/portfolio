@@ -7,8 +7,21 @@ export function allowedOrigins() {
   const origins = new Set([SITE]);
   for (const o of (process.env.ALLOWED_ORIGINS ?? "").split(",")) if (o.trim()) origins.add(o.trim());
   // Vercel preview deployments call their own URL.
-  for (const host of [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]) if (host) origins.add(`https://${host}`);
+  for (const host of [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL, process.env.VERCEL_PROJECT_PRODUCTION_URL]) {
+    if (host) origins.add(`https://${host}`);
+  }
   return origins;
+}
+
+/** True for the allow-listed origins, and for whatever host is serving this very request (custom domain, preview URL...). */
+export function isOwnOrigin(req, origin) {
+  if (allowedOrigins().has(origin)) return true;
+  const host = String(req.headers?.["x-forwarded-host"] ?? req.headers?.host ?? "").split(",")[0].trim().toLowerCase();
+  try {
+    return Boolean(host) && new URL(origin).host.toLowerCase() === host;
+  } catch {
+    return false;
+  }
 }
 
 export function setSecurityHeaders(res) {
@@ -70,7 +83,7 @@ export function guard(req, res, { name, maxBytes = 4096, perIp, perIpWindowMs, g
 
   const origin = req.headers?.origin;
   const site = req.headers?.["sec-fetch-site"];
-  if ((origin && !allowedOrigins().has(origin)) || (site && !["same-origin", "same-site", "none"].includes(site))) {
+  if ((origin && !isOwnOrigin(req, origin)) || (site && !["same-origin", "same-site", "none"].includes(site))) {
     sendJson(res, 403, { error: "forbidden" });
     return null;
   }

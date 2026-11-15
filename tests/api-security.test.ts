@@ -128,7 +128,7 @@ describe("/api/lead", () => {
     process.env.RESEND_API_KEY = "test-key";
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("secret internal detail key=abc")));
     const out = await call(lead, { body: validLead });
-    expect(out.status).toBe(500);
+    expect(out.status).toBe(502);
     expect(JSON.stringify(out.body)).not.toMatch(/secret|abc/);
   });
 });

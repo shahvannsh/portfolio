@@ -64,5 +64,22 @@
         }
       ]
     }
-  ]
+  ],
+  "crons": [
+    {
+      "path": "/api/digest",
+      "schedule": "30 2 * * *"
+    }
+  ],
+  "functions": {
+    "api/lead.js": {
+      "maxDuration": 30
+    },
+    "api/digest.js": {
+      "maxDuration": 60
+    },
+    "api/chat.js": {
+      "maxDuration": 30
+    }
+  }
 }
