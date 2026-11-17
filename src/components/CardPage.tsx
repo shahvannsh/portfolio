@@ -15,7 +15,7 @@ import { track } from "../lib/analytics";
 import { useBackgroundMusic } from "../hooks/useBackgroundMusic";
 import { directionToward, useMascotPerformer } from "../hooks/useMascotPerformer";
 import type { Gesture } from "../hooks/useMascotPerformer";
-import { speechAvailable, useSpokenGreeting } from "../hooks/useSpokenGreeting";
+import { dwellMs, speechAvailable, useSpokenGreeting } from "../hooks/useSpokenGreeting";
 
 type IconProps = { className?: string };
 type CardLink = {
@@ -99,7 +99,6 @@ function greetingWord() {
 }
 
 const LONG_PRESS_MS = 550;
-const GREETING_MS = 2400;
 
 const buttonClass =
   "group flex min-h-[56px] items-center gap-3 rounded-xl border border-line bg-amber/[0.03] px-4 font-mono text-sm text-ink transition-colors hover:border-amber/60 hover:bg-amber/10 active:bg-amber/15";
@@ -181,17 +180,18 @@ function CardPage() {
 
   useEffect(() => () => window.clearTimeout(pressTimer.current), []);
 
-  // While the hint is showing, the mascot greets in each language on the resume, with a new phrase each round.
+  const greeting = sequence[greetStep % sequence.length];
+  const speaking = speakOn && bubble === "hi" && !videoOpen && !askOpen && !shareOpen && !leadOpen;
+  const nextGreeting = () => setGreetStep((i) => (i + 1) % sequence.length);
+  // When speaking, a greeting stays until it has been fully said; otherwise each stays long enough to read.
+  const { missing: noVoice } = useSpokenGreeting(speaking, greeting, nextGreeting);
   useEffect(() => {
-    if (bubble !== "hi") {
+    if (bubble !== "hi" || speaking) {
       return;
     }
-    const rotate = window.setInterval(() => setGreetStep((i) => (i + 1) % sequence.length), GREETING_MS);
-    return () => window.clearInterval(rotate);
-  }, [bubble, sequence.length]);
-
-  const greeting = sequence[greetStep % sequence.length];
-  const { missing: noVoice } = useSpokenGreeting(speakOn && bubble === "hi" && !videoOpen && !askOpen && !shareOpen && !leadOpen, greeting);
+    const timer = window.setTimeout(() => setGreetStep((i) => (i + 1) % sequence.length), dwellMs(greeting.text));
+    return () => window.clearTimeout(timer);
+  }, [bubble, speaking, greetStep, greeting.text, sequence.length]);
 
   const closeVideo = (finished: boolean) => {
     setVideoOpen(false);

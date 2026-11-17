@@ -148,13 +148,14 @@ describe("CardPage", () => {
     expect(speak).not.toHaveBeenCalled(); // English has no voice on this fake device
     expect(screen.getByRole("status")).toHaveTextContent(/no english voice on this device/i);
 
+    // With nothing to say it stays long enough to read, then the Hindi greeting is spoken in full.
     await act(async () => {
       vi.advanceTimersByTime(2400);
     });
     await act(async () => {
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(400);
     });
-    expect(speak).toHaveBeenCalledTimes(1); // Hindi greeting
+    expect(speak).toHaveBeenCalledTimes(1);
     expect(speak.mock.calls[0][0].text).toBe("नमस्ते");
     vi.unstubAllGlobals();
   });
