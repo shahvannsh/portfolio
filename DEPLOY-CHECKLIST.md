@@ -23,13 +23,14 @@
 - [ ] `npm run verify` (all checks must pass).
 - [ ] Open `/card` on your phone: greeting bubble, video, music, "Ask me", Share (QR), "Leave your details" (send yourself one), Save Contact (check your photo shows in Contacts).
 - [ ] Open `/` and try the chatbot, the intro video and the music button.
+- [ ] Try the voice agent: open **Ask me**, tap the mic and ask a question out loud (Chrome on Android and Safari on iPhone). See **VOICE-AGENT.md**.
 
 ## 5. Write the NFC tag
 - [ ] URL: `https://portfolio-mu-ruby-37.vercel.app/card?utm_source=nfc&utm_medium=card`
 - [ ] Test on an Android phone and an iPhone before locking the tag.
 
 ## 6. Fill in later
-- [ ] Record the 7 "hello" greetings in your own voice: **VOICE-SETUP.md** (optional, but it makes the spoken greetings sound much better).
+- [ ] Give every language a voice on every phone: `npm run greetings:generate` with a free Google or Azure key (**VOICE-SETUP.md**, step 2), then commit `public/greetings/`. Optionally record your own voice instead (step 3).
 - [ ] One-line **result** for each project (`result` in `src/data/content.ts`).
 - [ ] Ask a native speaker to check the Sanskrit, Marathi, Gujarati and Japanese greetings (`src/data/greetings.ts`).
 - [ ] Confirm the DocParserEnvs description (Ollama Qwen) and the Chotu description match your repos.

@@ -75,7 +75,8 @@ Write this link to the NFC tag (the UTM tags let Vercel Web Analytics count taps
 | Project results | Fill the empty `result` field of a project in `content.ts` (for example `"Cuts study-planning time from 30 to 5 minutes"`); it appears on the project card. |
 | Self-host fonts (optional) | `npm run fonts` downloads the Google fonts into `public/fonts/` and removes Google from the CSP. Needs internet once. |
 | Check the live site | `npm run verify` tests the deployed headers, files and API protections. |
-| Spoken greetings voice | Picks the most natural device voice per language, or plays recordings of your own voice: see [VOICE-SETUP.md](VOICE-SETUP.md). `npm run greetings:list` then `npm run greetings`. |
+| Spoken greetings voice | Picks the most natural device voice per language, or plays recordings of your own voice: see [VOICE-SETUP.md](VOICE-SETUP.md). `npm run greetings:generate` creates clips for every language with a cloud voice (so no phone is missing a language); `npm run greetings:list` + `npm run greetings` is for your own recordings. |
+| Voice agent | "Ask me" has a mic: ask out loud and hear the answer, free, no account. See [VOICE-AGENT.md](VOICE-AGENT.md). |
 | Festival greetings | Dates live in `src/data/festivals.ts` (2026–2027 listed); add new years there. |
 
 Copy `.env.example` for the full list of environment variables. Never commit real keys.

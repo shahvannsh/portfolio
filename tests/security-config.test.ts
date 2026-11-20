@@ -49,9 +49,11 @@ describe("response headers", () => {
     expect(header("X-Frame-Options")).toBe("DENY");
     expect(header("Referrer-Policy")).toBe("strict-origin-when-cross-origin");
     expect(header("Cross-Origin-Opener-Policy")).toBe("same-origin");
-    for (const feature of ["camera", "microphone", "geolocation", "payment"]) {
+    for (const feature of ["camera", "geolocation", "payment"]) {
       expect(header("Permissions-Policy")).toContain(`${feature}=()`);
     }
+    // The voice chat needs the microphone, but only on our own pages (never in an embedded frame).
+    expect(header("Permissions-Policy")).toContain("microphone=(self)");
   });
 
   it("never caches API responses", () => {

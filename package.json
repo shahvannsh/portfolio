@@ -21,7 +21,8 @@
     "verify": "node scripts/verify-deploy.mjs",
     "test-lead": "node scripts/test-lead.mjs",
     "greetings": "python3 scripts/prepare-greetings.py",
-    "greetings:list": "python3 scripts/prepare-greetings.py --list"
+    "greetings:list": "python3 scripts/prepare-greetings.py --list",
+    "greetings:generate": "node --experimental-strip-types scripts/generate-greeting-audio.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

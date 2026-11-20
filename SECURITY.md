@@ -10,7 +10,7 @@ visitors' data, run denial-of-service tests, or use social engineering.
 
 | Layer | Protection |
 | --- | --- |
-| Browser | A strict Content-Security-Policy (`vercel.json`): no inline or third-party scripts, no `eval`, no framing, and `connect-src 'self'` so injected code can't send data to another site. Also HSTS, `nosniff`, `X-Frame-Options: DENY`, a locked-down Permissions-Policy, and COOP. |
+| Browser | A strict Content-Security-Policy (`vercel.json`): no inline or third-party scripts, no `eval`, no framing, and `connect-src 'self'` so injected code can't send data to another site. Also HSTS, `nosniff`, `X-Frame-Options: DENY`, a locked-down Permissions-Policy (camera and location off; the microphone allowed only on the site's own pages, for the voice chat), and COOP. |
 | Code | React escapes all output. No `innerHTML`, `eval` or `dangerouslySetInnerHTML` (a test fails if one appears). All links pass through `safeHref`. External links use `rel="noopener noreferrer"`. |
 | API (`/api/lead`, `/api/chat`) | POST only; JSON only; small bodies; same-site Origin / `Sec-Fetch-Site` checks; strict input cleaning; honeypot, speed and link-spam traps; per-visitor and global rate limits; generic error messages; `no-store` caching. |
 | Message agent | Visitor text is treated as untrusted data; a message that tries to instruct the AI is capped at "normal" and flagged; the AI's output is validated, link-stripped and can only produce a ranking, summary and draft reply. The daily-digest endpoint needs `CRON_SECRET`. Messages are kept 90 days. |

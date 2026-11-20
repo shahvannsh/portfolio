@@ -92,6 +92,116 @@ describe("AskPanel", () => {
   });
 });
 
+class FakeRecognition {
+  static instances: FakeRecognition[] = [];
+  lang = "";
+  continuous = true;
+  interimResults = false;
+  maxAlternatives = 0;
+  onresult: ((event: unknown) => void) | null = null;
+  onerror: ((event: { error: string }) => void) | null = null;
+  onend: (() => void) | null = null;
+  started = false;
+  constructor() {
+    FakeRecognition.instances.push(this);
+  }
+  start() {
+    this.started = true;
+  }
+  stop() {
+    this.onend?.();
+  }
+  abort() {}
+  emitFinal(text: string) {
+    this.onresult?.({ resultIndex: 0, results: [Object.assign([{ transcript: text }], { isFinal: true })] });
+    this.onend?.(); // real browsers end the session right after the final result
+  }
+}
+
+function installSpeech() {
+  const spoken: { text: string; onend: (() => void) | null }[] = [];
+  const cancel = vi.fn();
+  vi.stubGlobal("speechSynthesis", {
+    speak: (u: (typeof spoken)[number]) => spoken.push(u),
+    cancel,
+    getVoices: () => [{ name: "Veena", lang: "en-IN" }],
+    speaking: false,
+    pending: false,
+  });
+  vi.stubGlobal(
+    "SpeechSynthesisUtterance",
+    class {
+      text: string;
+      voice: unknown;
+      lang = "";
+      rate = 1;
+      onend: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      constructor(text: string) {
+        this.text = text;
+      }
+    },
+  );
+  return { spoken, cancel };
+}
+
+describe("AskPanel by voice", () => {
+  it("hides the mic when the browser can't do speech recognition", () => {
+    render(<AskPanel onClose={() => undefined} />);
+    expect(screen.queryByRole("button", { name: /talk to me/i })).toBeNull();
+  });
+
+  it("lets you ask by voice, answers aloud, then listens for the next question", async () => {
+    FakeRecognition.instances = [];
+    vi.stubGlobal("webkitSpeechRecognition", FakeRecognition);
+    const { spoken } = installSpeech();
+    render(<AskPanel onClose={() => undefined} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /talk to me/i }));
+    expect(FakeRecognition.instances).toHaveLength(1);
+    expect(screen.getByRole("button", { name: /stop listening/i })).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent(/listening/i);
+
+    act(() => FakeRecognition.instances[0].emitFinal("What are your skills?"));
+    await act(async () => {
+      vi.advanceTimersByTime(1500);
+    });
+    expect(screen.getByText("What are your skills?")).toBeInTheDocument();
+    expect(screen.getByText(/core strengths/i)).toBeInTheDocument();
+
+    await act(async () => {
+      vi.advanceTimersByTime(50);
+    });
+    expect(spoken).toHaveLength(1);
+    expect(spoken[0].text).toMatch(/core strengths/i);
+
+    act(() => spoken[0].onend?.()); // finished speaking, so it listens again
+    expect(FakeRecognition.instances).toHaveLength(2);
+  });
+
+  it("stops listening and talking when you tap stop", () => {
+    FakeRecognition.instances = [];
+    vi.stubGlobal("webkitSpeechRecognition", FakeRecognition);
+    const { cancel } = installSpeech();
+    render(<AskPanel onClose={() => undefined} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /talk to me/i }));
+    fireEvent.click(screen.getByRole("button", { name: /stop listening/i }));
+    expect(screen.getByRole("button", { name: /talk to me/i })).toBeInTheDocument();
+    expect(cancel).toHaveBeenCalled();
+    expect(FakeRecognition.instances).toHaveLength(1); // it does not start again by itself
+  });
+
+  it("can turn spoken replies on and off", () => {
+    installSpeech();
+    render(<AskPanel onClose={() => undefined} />);
+    const toggle = screen.getByRole("button", { name: /speak replies aloud/i });
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
+  });
+});
+
 describe("AskLauncher", () => {
   it("opens and closes the chat", () => {
     render(<AskLauncher />);

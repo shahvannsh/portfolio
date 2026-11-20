@@ -1,15 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { Send, X } from "lucide-react";
+import { Mic, Send, Square, Volume2, VolumeX, X } from "lucide-react";
 import Mascot from "./Mascot";
 import type { Reaction } from "./Mascot";
 import { ask, STARTER_QUESTIONS, WELCOME } from "../lib/ask";
 import type { Reply } from "../lib/ask";
 import type { Link } from "../data/knowledge";
 import { safeHref } from "../lib/safeUrl";
+import { speakReply } from "../lib/speech";
+import { useVoiceChat } from "../hooks/useVoiceChat";
 import { useDialog } from "../hooks/useDialog";
 
 type Message = { id: number; from: "user" | "bot"; text: string; links?: Link[] };
+
+const LANGUAGES = [
+  ["en-IN", "English"],
+  ["hi-IN", "हिन्दी"],
+  ["mr-IN", "मराठी"],
+  ["gu-IN", "ગુજરાતી"],
+  ["de-DE", "Deutsch"],
+  ["ja-JP", "日本語"],
+] as const;
 
 const chip =
   "shrink-0 whitespace-nowrap rounded-full border border-amber/40 bg-amber/5 px-3 py-1.5 font-mono text-[11px] text-ink transition-colors hover:border-amber hover:bg-amber/15";
@@ -44,6 +55,13 @@ function AskPanel({ onClose }: { onClose: () => void }) {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [pose, setPose] = useState<Reaction | null>(null);
+  const [lang, setLang] = useState("en-IN");
+  const [voiceReplies, setVoiceReplies] = useState(false);
+  const [usedVoice, setUsedVoice] = useState(false);
+  const converse = useRef(false); // true while we're in a hands-free spoken conversation
+  const voiceRepliesRef = useRef(false);
+  const strikes = useRef(0); // consecutive times nothing was heard
+  const stopSpeech = useRef<(() => void) | null>(null);
 
   const inputRef = useDialog<HTMLInputElement>(true, onClose);
   const listRef = useRef<HTMLDivElement>(null);
@@ -83,6 +101,13 @@ function AskPanel({ onClose }: { onClose: () => void }) {
       setThinking(false);
       setPose(answer.known ? "delighted" : "bashful");
       timers.current.push(window.setTimeout(() => setPose(null), 1500));
+      if (voiceRepliesRef.current || converse.current) {
+        stopSpeech.current?.();
+        // Say the answer, then (in a conversation) listen for the next question.
+        stopSpeech.current = speakReply(answer.text, () => {
+          if (converse.current) voice.start();
+        });
+      }
     };
 
     const respond = async () => {
@@ -99,6 +124,60 @@ function AskPanel({ onClose }: { onClose: () => void }) {
     };
     void respond();
   };
+
+  const voice = useVoiceChat({
+    lang,
+    onFinal: (text) => {
+      strikes.current = 0;
+      send(text);
+    },
+    onEnd: ({ heard, error }) => {
+      // A question that was heard is answered first; listening resumes after the spoken reply.
+      if (!converse.current || heard) return;
+      if (error && error !== "no-speech") {
+        converse.current = false;
+        return;
+      }
+      strikes.current += 1;
+      if (strikes.current >= 2) {
+        converse.current = false; // nobody's there: stop listening
+        return;
+      }
+      timers.current.push(window.setTimeout(() => converse.current && voice.start(), 400));
+    },
+  });
+
+  const startTalking = () => {
+    setUsedVoice(true);
+    setVoiceReplies(true);
+    voiceRepliesRef.current = true;
+    converse.current = true;
+    strikes.current = 0;
+    stopSpeech.current?.();
+    voice.start();
+  };
+
+  const stopTalking = () => {
+    converse.current = false;
+    voice.stop();
+    stopSpeech.current?.();
+    stopSpeech.current = null;
+  };
+
+  const toggleVoiceReplies = () => {
+    const next = !voiceReplies;
+    setVoiceReplies(next);
+    voiceRepliesRef.current = next;
+    if (!next) stopSpeech.current?.();
+  };
+
+  useEffect(
+    () => () => {
+      converse.current = false;
+      stopSpeech.current?.();
+    },
+    [],
+  );
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -118,13 +197,24 @@ function AskPanel({ onClose }: { onClose: () => void }) {
             reactions="/mascots/vannsh-reactions.webp"
             size={44}
             label="Vannsh chibi mascot"
-            pose={pose}
+            pose={voice.listening ? "surprised" : pose}
           />
         </div>
         <div className="min-w-0 flex-1">
           <p className="font-display text-sm font-extrabold uppercase tracking-tight text-ink">Ask Vannsh</p>
           <p className="truncate font-mono text-[10px] text-mute">Automated · answers only from my portfolio & resume</p>
         </div>
+        {typeof window !== "undefined" && "speechSynthesis" in window && (
+          <button
+            type="button"
+            onClick={toggleVoiceReplies}
+            aria-pressed={voiceReplies}
+            aria-label="Speak replies aloud"
+            className="rounded-full border border-amber/40 p-1.5 text-ink transition-colors hover:border-amber hover:text-amber"
+          >
+            {voiceReplies ? <Volume2 size={14} aria-hidden="true" /> : <VolumeX size={14} aria-hidden="true" />}
+          </button>
+        )}
         <button
           type="button"
           onClick={onClose}
@@ -180,16 +270,52 @@ function AskPanel({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
+      {(voice.listening || voice.error || (voice.supported && !usedVoice)) && (
+        <p role="status" className="px-3 pb-1 font-mono text-[10px] text-mute">
+          {voice.listening
+            ? "🎙 Listening… speak your question"
+            : voice.error || "Tap the mic to ask by voice. Your browser's speech service handles the audio."}
+        </p>
+      )}
+
       <form onSubmit={submit} className="flex items-center gap-2 border-t border-line px-3 py-2.5">
         <input
           ref={inputRef}
-          value={input}
+          value={voice.listening ? voice.interim : input}
+          readOnly={voice.listening}
           onChange={(event) => setInput(event.target.value)}
           maxLength={200}
           aria-label="Ask a question"
           placeholder="Ask about my career, projects, skills…"
           className="min-w-0 flex-1 rounded-full border border-line bg-panel2 px-4 py-2 font-body text-sm text-ink outline-none placeholder:text-mute focus:border-amber"
         />
+        {voice.supported && import.meta.env.VITE_AI_CHAT === "true" && (
+          <select
+            value={lang}
+            onChange={(event) => setLang(event.target.value)}
+            aria-label="Speech language"
+            className="w-[74px] shrink-0 rounded-full border border-line bg-panel2 px-2 py-2 font-body text-xs text-ink outline-none focus:border-amber"
+          >
+            {LANGUAGES.map(([code, name]) => (
+              <option key={code} value={code}>
+                {name}
+              </option>
+            ))}
+          </select>
+        )}
+        {voice.supported && (
+          <button
+            type="button"
+            onClick={voice.listening || converse.current ? stopTalking : startTalking}
+            aria-pressed={voice.listening}
+            aria-label={voice.listening ? "Stop listening" : "Talk to me"}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+              voice.listening ? "border-amber bg-amber/20 text-amber motion-safe:animate-pulse" : "border-amber/50 text-amber hover:bg-amber/15"
+            }`}
+          >
+            {voice.listening ? <Square size={13} aria-hidden="true" /> : <Mic size={15} aria-hidden="true" />}
+          </button>
+        )}
         <button
           type="submit"
           disabled={!input.trim() || thinking}

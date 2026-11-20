@@ -21,7 +21,7 @@ for (const path of ["/", "/card"]) {
   check(`${path} cannot be framed`, /frame-ancestors 'none'/.test(csp) && h("x-frame-options") === "DENY");
   check(`${path} has HSTS`, /max-age=\d{8,}/.test(h("strict-transport-security")));
   check(`${path} sets nosniff + referrer + COOP`, h("x-content-type-options") === "nosniff" && h("referrer-policy") !== "" && h("cross-origin-opener-policy") === "same-origin");
-  check(`${path} blocks camera, mic and location`, /camera=\(\)/.test(h("permissions-policy")) && /microphone=\(\)/.test(h("permissions-policy")));
+  check(`${path} blocks camera and location, mic only on this site`, /camera=\(\)/.test(h("permissions-policy")) && /geolocation=\(\)/.test(h("permissions-policy")) && /microphone=\(self\)/.test(h("permissions-policy")));
   check(`${path} doesn't advertise its server software`, !h("x-powered-by"));
 }
 
